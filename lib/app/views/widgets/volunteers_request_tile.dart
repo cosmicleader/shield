@@ -14,7 +14,7 @@ Widget buildRequestTile(VolunteerRequest request) {
       title: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Container(
+          SizedBox(
             width: 200,
             child: Text(
               request.title,

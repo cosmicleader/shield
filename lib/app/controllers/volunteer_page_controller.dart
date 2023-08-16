@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:get/get.dart';
 
 import '../models/volunteer_request.dart';
@@ -21,7 +23,7 @@ class VolunteersController extends GetxController
       change(newData, status: RxStatus.success());
     } catch (e) {
       change(null, status: RxStatus.error('Failed to load data'));
-      print('Error loading data: $e');
+      log('Error loading data: $e');
     }
   }
 }

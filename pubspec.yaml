@@ -31,3 +31,4 @@ flutter:
   uses-material-design: true
   assets:
     - lib/assets/sample_data/volunteers_list.json
+    - "lib/assets/thumb/volunteers_page_thumb.png"

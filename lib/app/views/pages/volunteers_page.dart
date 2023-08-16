@@ -42,38 +42,8 @@ class _VolunteersPageState extends State<VolunteersPage> {
         SizedBox(
           height: MediaQuery.of(context).size.height * 0.1,
         ),
-        Row(
-          children: [
-            Container(
-              width: MediaQuery.of(context).size.width * 0.7,
-              height: 30,
-              decoration: const BoxDecoration(color: Color(0xff1b1b1b)),
-              child: Center(
-                child: Text(
-                  'Hi $name...',
-                  style: const TextStyle(color: Colors.white, fontSize: 16),
-                ),
-              ),
-            ),
-            const SizedBox(
-              width: 10,
-            ),
-            Container(
-              width: 30,
-              height: 30,
-              decoration: BoxDecoration(
-                  color: const Color(0xff1b1b1b),
-                  borderRadius: BorderRadius.circular(100)),
-              child: const Icon(
-                Icons.notifications,
-                color: Colors.white,
-              ),
-            )
-          ],
-        ),
-        const SizedBox(
-          height: 20,
-        ),
+        _buildAppBar(context, name),
+        _build20PXHeight(),
         SizedBox(
           width: MediaQuery.of(context).size.width - 40,
           // width: 200, // Set a width for the container to control wrapping
@@ -87,34 +57,24 @@ class _VolunteersPageState extends State<VolunteersPage> {
             textAlign: TextAlign.left,
           ),
         ),
-        const SizedBox(
-          height: 20,
+        ClipRRect(
+          borderRadius: BorderRadius.circular(8),
+          child: Padding(
+            padding: const EdgeInsets.all(20),
+            child: Image.asset("lib/assets/thumb/volunteers_page_thumb.png"),
+          ),
         ),
-        Container(
-          color: Colors.amberAccent,
-          height: MediaQuery.of(context).size.width * 0.5,
-          width: MediaQuery.of(context).size.width - 40,
-        ),
-        const SizedBox(
-          height: 20,
-        ),
-        const Row(
+        Row(
           children: [
-            SizedBox(
-              width: 20,
-            ),
-            CustomButton(
+            _build20PXWidth(),
+            const CustomButton(
               title: "BECOME A VOLUNTEER",
             ),
-            SizedBox(
-              width: 20,
-            ),
-            CustomButton(
+            _build20PXWidth(),
+            const CustomButton(
               title: "BECOME A VOLUNTEER",
             ),
-            SizedBox(
-              width: 20,
-            ),
+            _build20PXWidth(),
           ],
         ),
         SizedBox(
@@ -129,15 +89,66 @@ class _VolunteersPageState extends State<VolunteersPage> {
             itemBuilder: (context, index) {
               final request = volunteerRequests[index];
               return buildRequestTile(request);
-              // return ListTile(
-              //   title: Text(request.title),
-              //   subtitle: Text(request.description),
-              //   trailing: Text(request.requestType),
-              // );
             },
           ),
         ),
       ]),
     ));
+  }
+
+  SizedBox _build20PXWidth() {
+    return const SizedBox(
+      width: 20,
+    );
+  }
+
+  SizedBox _build20PXHeight() {
+    return const SizedBox(
+      height: 20,
+    );
+  }
+
+  Row _buildAppBar(BuildContext context, String name) {
+    return Row(
+      children: [
+        Container(
+          width: MediaQuery.of(context).size.width * 0.7,
+          height: 30,
+          decoration: const BoxDecoration(
+            color: Color(0xff1b1b1b),
+            borderRadius: BorderRadius.only(
+              topRight: Radius.circular(20),
+              bottomRight: Radius.circular(20),
+            ),
+          ),
+          child: Row(
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(
+                    left: 20), // Adjust left padding as needed
+                child: Text(
+                  'Hi $name...',
+                  style: const TextStyle(color: Colors.white, fontSize: 16),
+                ),
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(
+          width: 10,
+        ),
+        Container(
+          width: 30,
+          height: 30,
+          decoration: BoxDecoration(
+              color: const Color(0xff1b1b1b),
+              borderRadius: BorderRadius.circular(100)),
+          child: const Icon(
+            Icons.notifications,
+            color: Colors.white,
+          ),
+        )
+      ],
+    );
   }
 }
