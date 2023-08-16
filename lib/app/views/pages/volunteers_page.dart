@@ -1,10 +1,36 @@
 // ignore: file_names
 import 'package:flutter/material.dart';
 
+import '../../models/volunteer_request.dart';
+import '../../services/api_client.dart';
 import '../widgets/custom_button.dart';
 
-class VolunteersPage extends StatelessWidget {
+class VolunteersPage extends StatefulWidget {
   const VolunteersPage({super.key});
+
+  @override
+  State<VolunteersPage> createState() => _VolunteersPageState();
+}
+
+class _VolunteersPageState extends State<VolunteersPage> {
+  List<VolunteerRequest> volunteerRequests = [];
+  int currentPage = 1;
+  final ApiClient apiClient = ApiClient();
+
+  @override
+  void initState() {
+    super.initState();
+    loadMoreData();
+  }
+
+  Future<void> loadMoreData() async {
+    final newData =
+        await apiClient.fetchVolunteerRequests(page: currentPage + 1);
+    setState(() {
+      currentPage++;
+      volunteerRequests.addAll(newData);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +86,7 @@ class VolunteersPage extends StatelessWidget {
             textAlign: TextAlign.left,
           ),
         ),
-        SizedBox(
+        const SizedBox(
           height: 20,
         ),
         Container(
@@ -68,10 +94,10 @@ class VolunteersPage extends StatelessWidget {
           height: MediaQuery.of(context).size.width * 0.5,
           width: MediaQuery.of(context).size.width - 40,
         ),
-        SizedBox(
+        const SizedBox(
           height: 20,
         ),
-        Row(
+        const Row(
           children: [
             SizedBox(
               width: 20,
@@ -92,8 +118,21 @@ class VolunteersPage extends StatelessWidget {
         ),
         SizedBox(
           width: MediaQuery.of(context).size.width - 40,
-          child: Divider(
+          child: const Divider(
             color: Colors.black,
+          ),
+        ),
+        Expanded(
+          child: ListView.builder(
+            itemCount: volunteerRequests.length,
+            itemBuilder: (context, index) {
+              final request = volunteerRequests[index];
+              return ListTile(
+                title: Text(request.title),
+                subtitle: Text(request.description),
+                trailing: Text(request.requestType),
+              );
+            },
           ),
         ),
       ]),
