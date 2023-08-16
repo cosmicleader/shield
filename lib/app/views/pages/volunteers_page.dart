@@ -1,5 +1,6 @@
 // ignore: file_names
 import 'package:flutter/material.dart';
+import 'package:shield/app/views/widgets/volunteers_request_tile.dart';
 
 import '../../models/volunteer_request.dart';
 import '../../services/api_client.dart';
@@ -127,11 +128,12 @@ class _VolunteersPageState extends State<VolunteersPage> {
             itemCount: volunteerRequests.length,
             itemBuilder: (context, index) {
               final request = volunteerRequests[index];
-              return ListTile(
-                title: Text(request.title),
-                subtitle: Text(request.description),
-                trailing: Text(request.requestType),
-              );
+              return buildRequestTile(request);
+              // return ListTile(
+              //   title: Text(request.title),
+              //   subtitle: Text(request.description),
+              //   trailing: Text(request.requestType),
+              // );
             },
           ),
         ),
