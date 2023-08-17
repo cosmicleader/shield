@@ -1,4 +1,5 @@
-// ignore: file_names
+// ignore_for_file: file_names
+
 import 'package:flutter/material.dart';
 import 'package:shield/app/views/widgets/volunteers_request_tile.dart';
 
@@ -72,7 +73,7 @@ class _VolunteersPageState extends State<VolunteersPage> {
             ),
             _build20PXWidth(),
             const CustomButton(
-              title: "BECOME A VOLUNTEER",
+              title: "REQUEST VOLUNTEERS",
             ),
             _build20PXWidth(),
           ],

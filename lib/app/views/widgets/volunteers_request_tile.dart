@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:shield/app/views/widgets/custom_button.dart';
 
 import '../../models/volunteer_request.dart';
 import '../../utils/calculate_time_ago.dart';
+import '../dialogs/interested_volunteers_dialogue_box.dart';
 
 Widget buildRequestTile(VolunteerRequest request) {
   return Card(
@@ -46,57 +45,11 @@ Widget buildRequestTile(VolunteerRequest request) {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               ElevatedButton(
-                style: ButtonStyle(
+                style: const ButtonStyle(
                     backgroundColor:
                         MaterialStatePropertyAll(Color(0xff1b1b1b))),
                 onPressed: () {
-                  Get.defaultDialog(
-                    radius: 8,
-                    title: request.title,
-                    content: Container(
-                      margin: EdgeInsets.all(20),
-                      child: Column(
-                        children: [
-                          Text(request.description),
-                          Container(
-                            height: 45,
-                            // width: 200,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  'Type: ${request.requestType}',
-                                  style: const TextStyle(
-                                      color: Colors.grey, fontSize: 12),
-                                ),
-                                // SizedBox.expand(),
-                                Text(
-                                  'Posted ${calculateTimeAgo(request.postedTime)} ago',
-                                  style: const TextStyle(
-                                      color: Colors.grey, fontSize: 12),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Row(
-                            children: [
-                              CustomButton(
-                                title: "Cancel",
-                                onPressed: () => Get.back(),
-                              ),
-                              CustomButton(
-                                title: request.requestType == "available"
-                                    ? "Join"
-                                    : "Request",
-                                onPressed: () => Get.snackbar(
-                                    "Hi", "Confirmaion has pressed"),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                  );
+                  kInterestedVolunteerDialogueBox(request);
                 },
                 child: const Text(r"I'm Interested"),
               ),

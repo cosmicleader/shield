@@ -1,0 +1,7 @@
+{
+    "appTitle": "My App",
+    "version":"0.0.01",
+    "versionStage":"alpha",
+    "apiBaseUrl": "https://api.example.com"
+  }
+  

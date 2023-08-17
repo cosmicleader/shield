@@ -8,7 +8,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      initialRoute: Routes.volunteers,
+      initialRoute: Routes.splash,
       getPages: AppPages.routes,
     );
   }
