@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "246633224512",
+    "project_id": "shield-cosmic",
+    "storage_bucket": "shield-cosmic.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:246633224512:android:89e1ad985a5bb572f982a5",
+        "android_client_info": {
+          "package_name": "com.cosmic.shield"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "246633224512-13ev3e48ifds6dfanslu1co7mb04j8tu.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.cosmic.shield",
+            "certificate_hash": "bc3ac0acafb6e0c14d1f36ecd87f779156dc430f"
+          }
+        },
+        {
+          "client_id": "246633224512-hjqf8qnp8qbrnondq2hd0q2klh6ge9nr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB6j2Wy5Leg118WbYNLDahsf3zXyImp-g0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "246633224512-hjqf8qnp8qbrnondq2hd0q2klh6ge9nr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

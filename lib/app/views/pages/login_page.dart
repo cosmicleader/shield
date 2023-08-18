@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../controllers/auth_controller.dart';
+import '../../controllers/login_controller.dart';
 
 class LoginPage extends StatelessWidget {
   final AuthController _authController = Get.put(AuthController());
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
 
   LoginPage({super.key});
 
@@ -21,7 +20,7 @@ class LoginPage extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    _buildLoginWithEmailAndPassword(),
+                    const LoginForum(),
                     _build10pxSpace(),
                     Container(
                       height: 45,
@@ -34,9 +33,8 @@ class LoginPage extends StatelessWidget {
                           child: Text(
                         "Sign in with Google",
                         style: TextStyle(
-                          color: Color(0xFFffffff), // Use the color code here
-                          fontSize: 16, // Set the desired font size
-                          // You can also customize other text styles here
+                          color: Color(0xFFffffff),
+                          fontSize: 16,
                         ),
                       )),
                     ),
@@ -125,8 +123,13 @@ class LoginPage extends StatelessWidget {
   }
 
   SizedBox _build10pxSpace() => const SizedBox(height: 10.0);
+}
 
-  Widget _buildLoginWithEmailAndPassword() {
+class LoginForum extends GetView<LoginController> {
+  const LoginForum({super.key});
+
+  @override
+  Widget build(BuildContext context) {
     return Card(
       child: Container(
         height: 175,
@@ -135,61 +138,64 @@ class LoginPage extends StatelessWidget {
         decoration: const BoxDecoration(
             // color: const Color(0xff1b1b1b),
             ),
-        child: Column(children: [
-          // const SizedBox(height: 10.0),
-          SizedBox(
-            height: 45,
-            child: TextField(
-              controller: _emailController,
-              decoration: InputDecoration(
-                hintText: 'Email',
-                filled: true,
-                fillColor: Colors.white,
-                border:
-                    OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
+        child: Form(
+          key: controller.formKey,
+          child: Column(children: [
+            // const SizedBox(height: 10.0),
+            SizedBox(
+              height: 45,
+              child: TextFormField(
+                controller: controller.emailController,
+                decoration: InputDecoration(
+                  hintText: 'Email',
+                  filled: true,
+                  fillColor: Colors.white,
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8)),
+                ),
+                validator: controller.validateEmail,
               ),
             ),
-          ),
-          _build10pxSpace(),
-          SizedBox(
-            height: 45,
-            child: TextField(
-              controller: _passwordController,
-              style: const TextStyle(
-                  color: Colors.white), // Text color for dark mode
-              decoration: InputDecoration(
-                filled: true,
-                fillColor: Colors.white,
-                hintText: 'Password',
-                border:
-                    OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
-                // enabledBorder: OutlineInputBorder(
-                //   borderSide: BorderSide(
-                //       color: Colors
-                //           .grey[700]!), // Border color for dark mode
-                // ),
-              ),
+            // _build10pxSpace(),
+            SizedBox(
+              height: 45,
+              child: TextFormField(
+                controller: controller.passwordController,
+                style: const TextStyle(
+                    color: Colors.white), // Text color for dark mode
+                decoration: InputDecoration(
+                  filled: true,
+                  fillColor: Colors.white,
+                  hintText: 'Password',
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8)),
+                ),
+                validator: controller.validatePassword,
 
-              obscureText: true,
+                obscureText: true,
+              ),
             ),
-          ),
-          const SizedBox(height: 10.0),
-          Container(
-            height: 45,
-            width: double.infinity,
-            decoration: BoxDecoration(
-                color: const Color(0xff1b1b1b),
-                borderRadius: BorderRadius.circular(8)),
-            child: const Center(
-              child: Text(
-                'Login',
-                style: TextStyle(
-                  color: Color(0xffffffff),
+            const SizedBox(height: 10.0),
+            InkWell(
+              onTap: controller.submitForm,
+              child: Container(
+                height: 45,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                    color: const Color(0xff1b1b1b),
+                    borderRadius: BorderRadius.circular(8)),
+                child: const Center(
+                  child: Text(
+                    'Login',
+                    style: TextStyle(
+                      color: Color(0xffffffff),
+                    ),
+                  ),
                 ),
               ),
             ),
-          ),
-        ]),
+          ]),
+        ),
       ),
     );
   }

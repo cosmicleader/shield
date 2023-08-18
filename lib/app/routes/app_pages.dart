@@ -1,6 +1,8 @@
 // ignore: avoid_classes_with_only_static_members
 import 'package:get/get.dart';
+import 'package:shield/app/bindings/login_bindings.dart';
 import 'package:shield/app/bindings/volunteers_binding.dart';
+import 'package:shield/app/views/pages/login_page.dart';
 import 'package:shield/app/views/pages/volunteers_page.dart';
 
 import '../bindings/guides_bindings.dart';
@@ -23,6 +25,11 @@ class AppPages {
       name: Routes.splash,
       page: () => const SplashScreen(),
       binding: SplashBinding(),
+    ),
+    GetPage(
+      name: Routes.login,
+      page: () => LoginPage(),
+      binding: LoginBinding(),
     ),
     GetPage(
       name: Routes.volunteers,

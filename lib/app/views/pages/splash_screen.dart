@@ -11,8 +11,25 @@ class SplashScreen extends GetView<SplashController> {
     return Scaffold(
       body: Center(
         child: controller.obx(
-          (data) => Text('Loaded: ${data?['appTitle']}'),
-          onLoading: const CircularProgressIndicator(),
+          (data) => const Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SizedBox(
+                height: 16,
+                width: 16,
+                child: CircularProgressIndicator(
+                  value: null,
+                  backgroundColor: Colors.grey,
+                  valueColor: AlwaysStoppedAnimation<Color>(Color(0xff1b1b1b)),
+                ),
+              ),
+              SizedBox(
+                width: 10,
+              ),
+              Text('Please Wait...'),
+            ],
+          ),
+          onLoading: const CircularProgressIndicator(color: Color(0xff1b1b1b)),
           onError: (error) => Text('Error: $error'),
         ),
       ),
