@@ -19,6 +19,8 @@ dependencies:
   timeago: ^3.5.0
   firebase_auth: ^4.7.3
   google_sign_in: ^6.1.4
+  image_picker: ^1.0.2
+  cloud_firestore: ^4.8.5
 
 dev_dependencies:
   flutter_test:

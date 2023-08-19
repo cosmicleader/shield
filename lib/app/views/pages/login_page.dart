@@ -13,47 +13,63 @@ class LoginPage extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         body: Stack(
-          alignment: Alignment.center,
           children: [
-            Center(
-              child: SingleChildScrollView(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const LoginForum(),
-                    _build10pxSpace(),
-                    Container(
-                      height: 45,
-                      width: double.infinity,
-                      margin: const EdgeInsets.symmetric(horizontal: 20),
-                      decoration: BoxDecoration(
-                          color: const Color(0xff1b1b1b),
-                          borderRadius: BorderRadius.circular(8)),
-                      child: const Center(
-                          child: Text(
-                        "Sign in with Google",
-                        style: TextStyle(
-                          color: Color(0xFFffffff),
-                          fontSize: 16,
+            Stack(
+              alignment: Alignment.center,
+              children: [
+                Center(
+                  child: SingleChildScrollView(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const LoginForum(),
+                        _build10pxSpace(),
+                        Container(
+                          height: 45,
+                          width: double.infinity,
+                          margin: const EdgeInsets.symmetric(horizontal: 20),
+                          decoration: BoxDecoration(
+                              color: const Color(0xff1b1b1b),
+                              borderRadius: BorderRadius.circular(8)),
+                          child: const Center(
+                              child: Text(
+                            "Sign in with Google",
+                            style: TextStyle(
+                              color: Color(0xFFffffff),
+                              fontSize: 16,
+                            ),
+                          )),
                         ),
-                      )),
+                        // temp()
+                      ],
                     ),
-                    // temp()
-                  ],
+                  ),
                 ),
-              ),
+                _buildSignupButton(),
+              ],
             ),
-            _buildSignupButton(),
-            const SizedBox(
-              width: 200,
+            Container(
+              padding: EdgeInsets.only(left: 20, top: 10),
+              // width: 200,
               height: 45,
-              child: Text(
-                "Back",
-                style: TextStyle(
-                  color: Color(0xFf1b1b1b), // Use the color code here
-                  fontSize: 16, // Set the desired font size
-                  // You can also customize other text styles here
-                ),
+              child: Row(
+                children: [
+                  InkWell(
+                    onTap: () => Get.back(),
+                    child: const Icon(
+                      Icons.arrow_back_ios,
+                      color: Color(0xFf1b1b1b),
+                    ),
+                  ),
+                  Text(
+                    "Back",
+                    style: TextStyle(
+                      color: Color(0xFf1b1b1b), // Use the color code here
+                      fontSize: 16, // Set the desired font size
+                      // You can also customize other text styles here
+                    ),
+                  ),
+                ],
               ),
             ),
           ],
@@ -158,11 +174,14 @@ class LoginForum extends GetView<LoginController> {
             ),
             // _build10pxSpace(),
             SizedBox(
+              height: 10,
+            ),
+            SizedBox(
               height: 45,
               child: TextFormField(
                 controller: controller.passwordController,
                 style: const TextStyle(
-                    color: Colors.white), // Text color for dark mode
+                    color: Color(0xff1b1b1b)), // Text color for dark mode
                 decoration: InputDecoration(
                   filled: true,
                   fillColor: Colors.white,

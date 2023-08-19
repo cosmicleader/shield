@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shield/app/controllers/auth_controller.dart';
 
 class LoginController extends GetxController {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
@@ -34,6 +35,9 @@ class LoginController extends GetxController {
       print('Email: ${emailController.text}');
       print('Password: ${passwordController.text}');
       // Navigate to the next screen
+      var _controller = Get.put(AuthController());
+      _controller.signInWithEmailAndPassword(
+          emailController.text, passwordController.text);
       authStatus = true;
       // Get.to(() => HomeScreen());
     }

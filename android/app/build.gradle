@@ -55,10 +55,9 @@ if (flutterVersionName == null) {
 // }
 
 apply plugin: 'com.android.application'
-apply plugin: 'com.android.application'
-// apply from: 'com.google.gms:google-services:4.3.10'
 apply plugin: 'kotlin-android'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
+// apply plugin: 'com.google.gms.google-services'
 
 android {
     namespace "com.cosmic.shield"
@@ -84,7 +83,7 @@ android {
         multiDexEnabled true
         // You can update the following values to match your application needs.
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
-        minSdkVersion flutter.minSdkVersion
+        minSdkVersion 19
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
@@ -104,11 +103,12 @@ flutter {
 }
 
 dependencies {
+    
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation platform('com.google.firebase:firebase-bom:32.2.2')
-    implementation 'com.google.firebase:firebase-analytics-ktx'
+    // implementation platform('com.google.firebase:firebase-bom:32.2.2')
+    // implementation 'com.google.firebase:firebase-analytics-ktx'
     // classpath 'com.google.gms:google-services:4.3.10'
 }
 // apply plugin: 'com.google.gms.google-services' version '4.3.15' apply false
 
-apply plugin: 'com.google.gms.google-services'
+
