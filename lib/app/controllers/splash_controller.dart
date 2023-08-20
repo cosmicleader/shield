@@ -20,7 +20,7 @@ class SplashController extends GetxController
       change(appConfigData, status: RxStatus.success());
       if (appConfigData != null) {
         Future.delayed(const Duration(seconds: 2), () {
-          Get.offNamed('/volunteers'); // Navigate to '/home' route
+          Get.offNamed('/navigation'); // Navigate to '/home' route
         });
       }
     } catch (e) {

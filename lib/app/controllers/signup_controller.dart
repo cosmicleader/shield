@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -6,9 +7,11 @@ import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 
 class SignUpController extends GetxController {
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  final TextEditingController confirmPassword = TextEditingController();
   final TextEditingController displayNameController = TextEditingController();
   final TextEditingController phoneNumberController = TextEditingController();
   final TextEditingController dateOfBirthController = TextEditingController();
@@ -60,7 +63,7 @@ class SignUpController extends GetxController {
 
         // Upload profile picture if available
         if (profilePicture.value != null) {
-          final String pictureUrl = await uploadProfilePicture(uid!);
+          final String? pictureUrl = await uploadProfilePicture(uid ?? "null");
           await userCredential.user?.updateProfile(photoURL: pictureUrl);
         }
 
@@ -74,10 +77,40 @@ class SignUpController extends GetxController {
     }
   }
 
+  void submitForm() {
+    if (formKey.currentState!.validate()) {
+      signUp();
+    }
+  }
+
   Future<String> uploadProfilePicture(String uid) async {
     // Implement your profile picture upload logic here
     // For example, using Firebase Storage
     // Return the picture URL after uploading
     return '';
+  }
+
+  Future<void> selectDate(BuildContext context) async {
+    final DateTime? picked = await showCupertinoModalPopup(
+      context: context,
+      builder: (BuildContext context) {
+        return Container(
+          height: 300.0,
+          color: Colors.white,
+          child: CupertinoDatePicker(
+            mode: CupertinoDatePickerMode.date,
+            initialDateTime: DateTime.now(),
+            onDateTimeChanged: (DateTime newDateTime) {
+              dateOfBirthController.text =
+                  "${newDateTime.year}-${newDateTime.month}-${newDateTime.day}";
+            },
+          ),
+        );
+      },
+    );
+    if (picked != null && picked != DateTime.now()) {
+      dateOfBirthController.text =
+          "${picked.year}-${picked.month}-${picked.day}";
+    }
   }
 }

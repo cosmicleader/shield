@@ -1,14 +1,18 @@
 // ignore: avoid_classes_with_only_static_members
 import 'package:get/get.dart';
 import 'package:shield/app/bindings/login_bindings.dart';
+import 'package:shield/app/bindings/navigation_bindings.dart';
 import 'package:shield/app/bindings/volunteers_binding.dart';
 import 'package:shield/app/views/pages/login_page.dart';
+import 'package:shield/app/views/pages/navigation_bar.dart';
+import 'package:shield/app/views/pages/signup_page.dart';
 import 'package:shield/app/views/pages/volunteers_page.dart';
 
 import '../bindings/guides_bindings.dart';
 import '../bindings/guides_cover_bindings.dart';
 import '../bindings/profile_bindings.dart';
 import '../bindings/resources_bindings.dart';
+import '../bindings/signup_bindigs.dart';
 import '../bindings/splash_bindings.dart';
 import '../views/pages/guides_cover_page.dart';
 import '../views/pages/guides_page.dart';
@@ -22,9 +26,18 @@ class AppPages {
 
   static final routes = [
     GetPage(
+        name: Routes.navigation,
+        page: () => NavigationBar(),
+        binding: NavigationBinding()),
+    GetPage(
       name: Routes.splash,
       page: () => const SplashScreen(),
       binding: SplashBinding(),
+    ),
+    GetPage(
+      name: Routes.signup,
+      page: () => const SignUpScreen(),
+      binding: SignUpBinding(),
     ),
     GetPage(
       name: Routes.login,

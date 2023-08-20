@@ -21,6 +21,8 @@ dependencies:
   google_sign_in: ^6.1.4
   image_picker: ^1.0.2
   cloud_firestore: ^4.8.5
+  firebase_core: ^2.15.1
+  animated_bottom_navigation_bar: ^1.2.0
 
 dev_dependencies:
   flutter_test:

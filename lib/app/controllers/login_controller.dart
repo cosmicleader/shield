@@ -38,6 +38,8 @@ class LoginController extends GetxController {
       var _controller = Get.put(AuthController());
       _controller.signInWithEmailAndPassword(
           emailController.text, passwordController.text);
+      Get.back();
+      _controller.update();
       authStatus = true;
       // Get.to(() => HomeScreen());
     }
