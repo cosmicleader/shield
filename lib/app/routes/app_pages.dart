@@ -50,16 +50,15 @@ class AppPages {
       binding: VolunteersBinding(),
     ),
     GetPage(
-        name: Routes.guidesCover,
-        page: () => const GuidesCoverPage(),
-        binding: GuidesCoverBinding(),
-        children: [
-          GetPage(
-            name: Routes.guides,
-            page: () => const GuidesPage(),
-            binding: GuidesBinding(),
-          ),
-        ]),
+      name: Routes.guidesCover,
+      page: () => const GuidesCoverPage(),
+      binding: GuidesCoverBinding(),
+    ),
+    GetPage(
+      name: Routes.guides,
+      page: () => const GuidesPage(),
+      binding: GuidesBinding(),
+    ),
     GetPage(
       name: Routes.resources,
       page: () => const ResourcesPage(),

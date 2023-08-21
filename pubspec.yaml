@@ -38,3 +38,4 @@ flutter:
     - lib/assets/sample_data/volunteers_list.json
     - lib/assets/config_data/app_config.json
     - "lib/assets/thumb/volunteers_page_thumb.png"
+    - "lib/assets/thumb/guides_cover.png"
