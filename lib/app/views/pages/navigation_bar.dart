@@ -22,14 +22,12 @@ class NavigationBar extends GetView<NavigationController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        child: GetBuilder<NavigationController>(
-          init: NavigationController(),
-          initState: (_) {},
-          builder: (controller) {
-            return buildCustomNavigator(controller.currentIndex.value);
-          },
-        ),
+      body: GetBuilder<NavigationController>(
+        init: NavigationController(),
+        initState: (_) {},
+        builder: (controller) {
+          return buildCustomNavigator(controller.currentIndex.value);
+        },
       ), //destination screen
       floatingActionButton: FloatingActionButton(
         onPressed: controller.showModalBottomSheet,
@@ -59,18 +57,18 @@ class NavigationBar extends GetView<NavigationController> {
 buildCustomNavigator(currentIndex) {
   switch (currentIndex) {
     case 0:
-      return VolunteersPage();
+      return const VolunteersPage();
     case 1:
-      return GuidesCoverPage();
+      return const GuidesCoverPage();
     case 2:
       return Container(
         color: Colors.amberAccent,
       );
     case 3:
-      return ResourcesPage();
+      return const ResourcesPage();
     case 4:
-      return ProfilePage();
+      return const ProfilePage();
     default:
-      return VolunteersPage();
+      return const VolunteersPage();
   }
 }

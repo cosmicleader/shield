@@ -88,7 +88,7 @@ class VolunteersPage extends StatelessWidget {
                         return buildRequestTile(request!);
                       },
                     ),
-                    onError: (error) => Text('Error: '),
+                    onError: (error) => const Text('Error: '),
                     onEmpty: const Text('No data available'),
                     onLoading: const CircularProgressIndicator(),
                   ),

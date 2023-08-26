@@ -31,15 +31,15 @@ class LoginController extends GetxController {
   void submitForm() {
     if (formKey.currentState!.validate()) {
       // Perform login or other actions here
-      print('Form validated and submitted');
-      print('Email: ${emailController.text}');
-      print('Password: ${passwordController.text}');
+      debugPrint('Form validated and submitted');
+      debugPrint('Email: ${emailController.text}');
+      debugPrint('Password: ${passwordController.text}');
       // Navigate to the next screen
-      var _controller = Get.put(AuthController());
-      _controller.signInWithEmailAndPassword(
+      var controller = Get.put(AuthController());
+      controller.signInWithEmailAndPassword(
           emailController.text, passwordController.text);
       Get.back();
-      _controller.update();
+      controller.update();
       authStatus = true;
       // Get.to(() => HomeScreen());
     }

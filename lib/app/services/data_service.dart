@@ -33,11 +33,11 @@ class DataService {
           .loadString('lib/assets/sample_data/guides_list.json');
       // log("List Data ${jsonString}");
       final data = json.decode(jsonString);
-      log("List Data ${data}");
+      log("List Data $data");
       final jsonData = data["lists"];
       for (var jsonItem in jsonData) {
         final listData = Guides.fromJson(jsonItem);
-        log("List Data ${jsonData}");
+        log("List Data $jsonData");
         if (isGuidesExist(listData.id)) {
           // Data is already loaded, no need to reload
           log('id: ${listData.id} already Exists');

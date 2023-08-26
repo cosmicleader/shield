@@ -6,7 +6,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:shield/app/views/themes/colours.dart';
 
 import '../../controllers/guides_controller.dart';
-import '../../models/guides_model.dart';
 
 class GuidesPage extends GetView<GuidesController> {
   const GuidesPage({super.key});
@@ -17,7 +16,7 @@ class GuidesPage extends GetView<GuidesController> {
     return SafeArea(
       child: Scaffold(
         body: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 20),
+          padding: const EdgeInsets.symmetric(horizontal: 20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -26,7 +25,7 @@ class GuidesPage extends GetView<GuidesController> {
                 children: [
                   Row(
                     children: [
-                      BackButton(),
+                      const BackButton(),
                       Text(
                         'Back',
                         style: GoogleFonts.inter(color: kBlack),
@@ -60,7 +59,7 @@ class GuidesPage extends GetView<GuidesController> {
                         //     .toList(),
                       );
                     },
-                    onLoading: Center(child: CircularProgressIndicator()),
+                    onLoading: const Center(child: CircularProgressIndicator()),
                     onError: (error) => Center(child: Text('Error: $error')),
                   ),
                   // Obx(
@@ -92,19 +91,17 @@ class GuidesPage extends GetView<GuidesController> {
                   (state) {
                     final selectedGuide = controller.selectedCategory.value;
                     return ListView.builder(
-                      itemCount: selectedGuide != null
-                          ? selectedGuide.elements.length
-                          : 0,
+                      itemCount: selectedGuide.elements.length,
                       itemBuilder: (BuildContext context, int index) {
                         return ListTile(
                           title: Text(
-                            selectedGuide?.elements[index]?.description ?? '',
+                            selectedGuide.elements[index].description,
                           ),
                         );
                       },
                     );
                   },
-                  onLoading: Center(child: CircularProgressIndicator()),
+                  onLoading: const Center(child: CircularProgressIndicator()),
                   onError: (error) => Center(child: Text('Error: $error')),
                 ),
                 // child: Obx(() {

@@ -1,4 +1,6 @@
 import 'package:flutter/cupertino.dart';
+// import firebase from 'firebase';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -44,10 +46,11 @@ class SignUpController extends GetxController {
       );
 
       if (userCredential.user != null) {
-        await userCredential.user?.updateProfile(
-          displayName: displayName,
-          photoURL: '',
-        );
+        // await userCredential.user?.updateProfile(
+        //   displayName: displayName,
+        //   photoURL: '',
+        // );
+        await userCredential.user!.updatePhotoURL('');
 
         final String? uid = userCredential.user?.uid;
         final CollectionReference usersCollection =
@@ -63,17 +66,19 @@ class SignUpController extends GetxController {
 
         // Upload profile picture if available
         if (profilePicture.value != null) {
-          final String? pictureUrl = await uploadProfilePicture(uid ?? "null");
-          await userCredential.user?.updateProfile(photoURL: pictureUrl);
+          final String pictureUrl =
+              await uploadProfilePicture(uid!, profilePicture.value!);
+          await userCredential.user!.updatePhotoURL(pictureUrl);
+          // await userCredential.user?.updateProfile(photoURL: pictureUrl);
         }
 
         // Navigate to the next screen or perform necessary actions
         // For example: Get.offAllNamed('/home');
       } else {
-        print('Signup failed');
+        debugPrint('Signup failed');
       }
     } catch (e) {
-      print('Signup error: $e');
+      debugPrint('Signup error: $e');
     }
   }
 
@@ -83,10 +88,31 @@ class SignUpController extends GetxController {
     }
   }
 
-  Future<String> uploadProfilePicture(String uid) async {
+  Future<String> uploadProfilePicture(String uid, File imageFile) async {
     // Implement your profile picture upload logic here
     // For example, using Firebase Storage
+    try {
+      // Create a reference to the Firebase Storage bucket.
+      final storageRef = FirebaseStorage.instance.ref('profile_pictures');
+
+      // Create a unique file name for the image.
+      String fileName = imageFile.path.split('/').last;
+
+      // Upload the image to Firebase Storage.
+      UploadTask uploadTask = storageRef.child(fileName).putFile(imageFile);
+
+      // Wait for the upload to complete.
+      await uploadTask.whenComplete(() {});
+
+      // Get the download URL of the image.
+      String downloadURL = await storageRef.child(fileName).getDownloadURL();
+
+      return downloadURL;
+    } catch (e) {
+      debugPrint('Upload error: $e');
+    }
     // Return the picture URL after uploading
+
     return '';
   }
 

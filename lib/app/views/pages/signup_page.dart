@@ -21,7 +21,7 @@ class SignUpScreen extends GetWidget<SignUpController> {
                 key: controller.formKey,
                 child: Column(
                   children: [
-                    SizedBox(
+                    const SizedBox(
                       height: 45,
                     ),
                     TextFormField(
@@ -199,7 +199,7 @@ class SignUpScreen extends GetWidget<SignUpController> {
                         size: 20,
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 10,
                     ),
                     Text(

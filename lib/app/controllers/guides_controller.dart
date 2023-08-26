@@ -25,7 +25,7 @@ class GuidesController extends GetxController with StateMixin<List<Guides>> {
   void loadData() async {
     change(null, status: RxStatus.loading());
     update();
-    final allListData = await _services.getAllListData();
+    final allListData = _services.getAllListData();
     log("allListData ${allListData.first.name}");
 
     // selectedCategory.value = categoryMap[selectedCategory.value.name] ??
