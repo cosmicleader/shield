@@ -7,10 +7,10 @@ import '../models/guides_model.dart';
 
 class GuidesController extends GetxController with StateMixin<List<Guides>> {
   final _services = DataService();
-
+  RxList<String> dropDownOptions = ['List 1', 'List 2'].obs;
   final Map<String, Guides> categoryMap = {}; // Create an empty HashMap
   List<Guides> allListData = [];
-  late var dropDownOptions = <String>[];
+  // late var dropDownOptions = <String>[];
 
   /// Need To create a new controller for the drop down menu since this one only loads the list view builder
   late Rx<Guides> selectedCategory; // Declare selectedCategory as Rx
@@ -19,6 +19,8 @@ class GuidesController extends GetxController with StateMixin<List<Guides>> {
   void onInit() {
     selectedCategory = Guides(id: "list_1", name: "List 1", elements: []).obs;
     loadData();
+    final dropDownOptions = allListData.map((guide) => guide.name).toList();
+    update();
     super.onInit();
   }
 
@@ -36,7 +38,7 @@ class GuidesController extends GetxController with StateMixin<List<Guides>> {
       }
       log('one map ${categoryMap[selectedCategory.value.name]}');
       selectedCategory.value = categoryMap[selectedCategory.value.name]!;
-      final dropDownOptions = allListData.map((guide) => guide.name).toList();
+
       change(allListData, status: RxStatus.success());
       log("data loading completed in guides controller");
       update();

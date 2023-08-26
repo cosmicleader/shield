@@ -5,6 +5,8 @@ import 'package:shield/app/views/pages/guides_cover_page.dart';
 import 'package:shield/app/views/pages/profile_page.dart';
 import 'package:shield/app/views/pages/resources_page.dart';
 import 'package:shield/app/views/pages/volunteers_page.dart';
+import 'package:shield/app/views/themes/colours.dart';
+import 'package:shield/app/views/themes/icons.dart';
 
 import '../../controllers/navigation_controller.dart';
 
@@ -13,10 +15,10 @@ class NavigationBar extends GetView<NavigationController> {
   NavigationBar({super.key});
 
   final iconList = <IconData>[
-    Icons.brightness_5,
-    Icons.brightness_4,
-    Icons.brightness_6,
-    Icons.brightness_7,
+    kVolunteerPage,
+    kGuidesPage,
+    kResourcesPage,
+    kProfilePage,
   ];
 
   @override
@@ -30,6 +32,8 @@ class NavigationBar extends GetView<NavigationController> {
         },
       ), //destination screen
       floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.food_bank_outlined),
+        backgroundColor: kRed,
         onPressed: controller.showModalBottomSheet,
         //params
       ),
