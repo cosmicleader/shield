@@ -1,0 +1,42 @@
+{
+    "lists": [
+      {
+        "id": "list_1",
+        "name": "List 1",
+        "elements": [
+          {
+            "step": 1,
+            "imageURL": "image1.jpg",
+            "description": "Description for step 1 of List 1"
+          },
+          {
+            "step": 2,
+            "imageURL": "image2.jpg",
+            "description": "Description for step 2 of List 1"
+          },
+          {
+            "step": 3,
+            "imageURL": "image3.jpg",
+            "description": "Description for step 3 of List 1"
+          }
+        ]
+      },
+      {
+        "id": "list_2",
+        "name": "List 2",
+        "elements": [
+          {
+            "step": 1,
+            "imageURL": "image4.jpg",
+            "description": "Description for step 1 of List 2"
+          },
+          {
+            "step": 2,
+            "imageURL": "image5.jpg",
+            "description": "Description for step 2 of List 2"
+          }
+        ]
+      }
+    ]
+  }
+  
