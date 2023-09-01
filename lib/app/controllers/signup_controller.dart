@@ -39,24 +39,25 @@ class SignUpController extends GetxController {
       final String gender = genderController.text;
       final String location = locationController.text;
 
-      UserCredential userCredential =
+      // Create the user using createUserWithEmailAndPassword
+      final UserCredential userCredential =
           await _auth.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
 
-      if (userCredential.user != null) {
-        // await userCredential.user?.updateProfile(
-        //   displayName: displayName,
-        //   photoURL: '',
-        // );
-        await userCredential.user!.updatePhotoURL('');
+      final User? user = userCredential.user;
 
-        final String? uid = userCredential.user?.uid;
+      if (user != null) {
+        final String uid = user.uid;
         final CollectionReference usersCollection =
             FirebaseFirestore.instance.collection('users');
 
-        await usersCollection.doc(uid).set({
+        // Use batch writes for better efficiency and atomicity
+        WriteBatch batch = FirebaseFirestore.instance.batch();
+        DocumentReference userDocRef = usersCollection.doc(uid);
+
+        batch.set(userDocRef, {
           'displayName': displayName,
           'phoneNumber': phoneNumber,
           'dateOfBirth': dateOfBirth,
@@ -67,13 +68,16 @@ class SignUpController extends GetxController {
         // Upload profile picture if available
         if (profilePicture.value != null) {
           final String pictureUrl =
-              await uploadProfilePicture(uid!, profilePicture.value!);
-          await userCredential.user!.updatePhotoURL(pictureUrl);
-          // await userCredential.user?.updateProfile(photoURL: pictureUrl);
+              await uploadProfilePicture(uid, profilePicture.value!);
+          batch.update(userDocRef, {'photoURL': pictureUrl});
         }
 
-        // Navigate to the next screen or perform necessary actions
-        // For example: Get.offAllNamed('/home');
+        // Commit the batch write
+        await batch.commit();
+        await user.updateDisplayName(displayName);
+        // await user.updatePhoneNumber(phoneNumber);
+        // Navigate to the next screen
+        Get.offAllNamed('/home');
       } else {
         debugPrint('Signup failed');
       }
@@ -81,6 +85,59 @@ class SignUpController extends GetxController {
       debugPrint('Signup error: $e');
     }
   }
+
+  // Future<void> signUp() async {
+  //   try {
+  //     final String email = emailController.text.trim();
+  //     final String password = passwordController.text;
+  //     final String displayName = displayNameController.text;
+  //     final String phoneNumber = phoneNumberController.text;
+  //     final String dateOfBirth = dateOfBirthController.text;
+  //     final String gender = genderController.text;
+  //     final String location = locationController.text;
+
+  //     UserCredential userCredential =
+  //         await _auth.createUserWithEmailAndPassword(
+  //       email: email,
+  //       password: password,
+  //     );
+
+  //     if (userCredential.user != null) {
+  //       // await userCredential.user?.updateProfile(
+  //       //   displayName: displayName,
+  //       //   photoURL: '',
+  //       // );
+  //       await userCredential.user!.updatePhotoURL('');
+
+  //       final String? uid = userCredential.user?.uid;
+  //       final CollectionReference usersCollection =
+  //           FirebaseFirestore.instance.collection('users');
+
+  //       await usersCollection.doc(uid).set({
+  //         'displayName': displayName,
+  //         'phoneNumber': phoneNumber,
+  //         'dateOfBirth': dateOfBirth,
+  //         'gender': gender,
+  //         'location': location,
+  //       });
+
+  //       // Upload profile picture if available
+  //       if (profilePicture.value != null) {
+  //         final String pictureUrl =
+  //             await uploadProfilePicture(uid!, profilePicture.value!);
+  //         await userCredential.user!.updatePhotoURL(pictureUrl);
+  //         // await userCredential.user?.updateProfile(photoURL: pictureUrl);
+  //       }
+
+  //       // Navigate to the next screen or perform necessary actions
+  //       // For example: Get.offAllNamed('/home');
+  //     } else {
+  //       debugPrint('Signup failed');
+  //     }
+  //   } catch (e) {
+  //     debugPrint('Signup error: $e');
+  //   }
+  // }
 
   void submitForm() {
     if (formKey.currentState!.validate()) {

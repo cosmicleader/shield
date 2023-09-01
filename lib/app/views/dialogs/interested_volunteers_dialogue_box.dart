@@ -2,7 +2,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shield/app/controllers/accepting_volunteer_request_controller.dart';
 
+// import '../../controllers/auth_controller.dart';
 import '../../models/volunteer_request.dart';
 import '../../utils/calculate_time_ago.dart';
 
@@ -50,8 +52,10 @@ Future<dynamic> kInterestedVolunteerDialogueBox(VolunteerRequest request) {
             _build10PixWidth(),
             ElevatedButton(
               onPressed: () {
+                final acceptVolunteerRequestController =
+                    Get.put(AcceptVolunteerRequestController());
                 Get.back();
-                Get.snackbar("Hi", "Confirmation has been pressed");
+                acceptVolunteerRequestController.confirmAction(request.title);
               },
               style: const ButtonStyle(
                   backgroundColor: MaterialStatePropertyAll(Color(0xff1b1b1b))),

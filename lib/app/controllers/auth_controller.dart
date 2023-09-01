@@ -24,6 +24,10 @@ class AuthController extends GetxController {
 
   bool get isAuthenticated => user.value != null;
   String? get usernameOrEmail => user.value?.displayName ?? user.value?.email;
+  get getUID => user.value?.uid;
+  get getUserName => user.value?.displayName ?? "Unknown user";
+  get getUserEmail => user.value?.email ?? "Unknown email";
+  get getUserPhoneNumber => user.value?.phoneNumber ?? 000000000000;
 
   void signOut() async {
     await _auth.signOut();

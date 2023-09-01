@@ -35,7 +35,7 @@ class VolunteersPage extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 24.0,
                   fontWeight: FontWeight.bold,
-                  color: Color(0x801B1B1B), // 0x80 for 50% transparency
+                  color: Color(0x801B1B1B),
                 ),
                 textAlign: TextAlign.left,
               ),
@@ -63,7 +63,10 @@ class VolunteersPage extends StatelessWidget {
                 _build20PXWidth(),
                 CustomButton(
                   onPressed: () {
-                    // Get.to(RequestVolunteerPage());
+                    final authController = Get.put(AuthController());
+                    authController.isAuthenticated
+                        ? kRequestVolunteerDialog()
+                        : Get.toNamed(Routes.login);
                     kRequestVolunteerDialog();
                   },
                   title: "REQUEST VOLUNTEERS",
@@ -90,30 +93,13 @@ class VolunteersPage extends StatelessWidget {
 
                   final timestamp = requestData['postedTime'];
                   log(timestamp.toString());
-                  // Convert the timestamp to a datetime object
-                  // final datetime =
-                  //     DateTime.fromMillisecondsSinceEpoch(timestamp);
-                  // log(datetime.toString());
-                  // log(datetime.toString());
-                  // final formattedDatetime =
-                  //     DateFormat('yyyy-MM-dd HH:mm:ss').format(datetime);
 
                   return VolunteerRequest(
                       id: requestData['title'],
                       title: requestData['title'],
                       description: requestData['description'],
                       postedTime: DateTime.now(),
-                      // postedTime: DateTime..strptime(timestamp, "%Y-%m-%dT%H:%M:%SZ")(
-                      //     requestData['description']),
                       requestType: requestData['requestType']);
-                  // return ListTile(
-                  //   title: Text(
-                  //     requestData['title'],
-                  //     style: GoogleFonts.inter(fontSize: 16, color: kBlack),
-                  //   ),
-                  //   subtitle: Text(requestData['description'],
-                  //       style: GoogleFonts.inter(fontSize: 16, color: kBlack)),
-                  // );
                 }).toList();
                 return GetBuilder<VolunteersController>(
                   init: VolunteersController(),
@@ -124,7 +110,6 @@ class VolunteersPage extends StatelessWidget {
                         (state) => ListView.builder(
                           itemCount: requestWidgets.length,
                           itemBuilder: (context, index) {
-                            // final request = state?[index];
                             return buildRequestTile(requestWidgets[index]);
                           },
                         ),
@@ -135,35 +120,8 @@ class VolunteersPage extends StatelessWidget {
                     );
                   },
                 );
-
-                // return Expanded(
-                //   child: ListView(
-                //     shrinkWrap: true,
-                //     children: requestWidgets,
-                //   ),
-                // );
               },
             ),
-            // GetBuilder<VolunteersController>(
-            //   init: VolunteersController(),
-            //   initState: (_) {},
-            //   builder: (controller) {
-            //     return Expanded(
-            //       child: controller.obx(
-            //         (state) => ListView.builder(
-            //           itemCount: state?.length,
-            //           itemBuilder: (context, index) {
-            //             final request = state?[index];
-            //             return buildRequestTile(request!);
-            //           },
-            //         ),
-            //         onError: (error) => const Text('Error: '),
-            //         onEmpty: const Text('No data available'),
-            //         onLoading: const CircularProgressIndicator(),
-            //       ),
-            //     );
-            //   },
-            // ),
           ],
         ),
       ),
