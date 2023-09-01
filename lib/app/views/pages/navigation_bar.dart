@@ -32,9 +32,9 @@ class NavigationBar extends GetView<NavigationController> {
         },
       ), //destination screen
       floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.food_bank_outlined),
         backgroundColor: kRed,
         onPressed: controller.showModalBottomSheet,
+        child: const Icon(Icons.food_bank_outlined),
         //params
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
@@ -64,13 +64,13 @@ buildCustomNavigator(currentIndex) {
       return const VolunteersPage();
     case 1:
       return const GuidesCoverPage();
+    // case 2:
+    //   return Container(
+    //     color: Colors.amberAccent,
+    //   );
     case 2:
-      return Container(
-        color: Colors.amberAccent,
-      );
-    case 3:
       return const ResourcesPage();
-    case 4:
+    case 3:
       return const ProfilePage();
     default:
       return const VolunteersPage();

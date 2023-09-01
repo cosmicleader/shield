@@ -19,7 +19,7 @@ class GuidesController extends GetxController with StateMixin<List<Guides>> {
   void onInit() {
     selectedCategory = Guides(id: "list_1", name: "List 1", elements: []).obs;
     loadData();
-    final dropDownOptions = allListData.map((guide) => guide.name).toList();
+    dropDownOptions.value = allListData.map((guide) => guide.name).toList();
     update();
     super.onInit();
   }

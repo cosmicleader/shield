@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shield/app/utils/text_styles.dart';
+import 'package:shield/app/views/themes/colours.dart';
 
 class CustomButton extends StatelessWidget {
   const CustomButton({
@@ -9,9 +10,11 @@ class CustomButton extends StatelessWidget {
     this.onPressed,
     this.kwidth,
     this.kheight,
+    this.color,
   }) : super(key: key);
 
   final void Function()? onPressed;
+  final Color? color;
   final String title;
   final double? kwidth;
   final double? kheight;
@@ -27,9 +30,11 @@ class CustomButton extends StatelessWidget {
             () => Get.snackbar('Hi', 'You have Pressed $title button'),
         child: Card(
           elevation: 5,
-          color: const Color(0xff1b1b1b),
+          color: color ?? kBlack,
           child: Center(
-            child: Text(title, style: kButtonTextStyle()),
+            child: Text(title,
+                style: kButtonTextStyle()
+                    .copyWith(color: color == kWhite ? kBlack : kWhite)),
           ),
         ),
       ),

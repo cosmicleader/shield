@@ -2,6 +2,7 @@ part of 'app_pages.dart';
 
 abstract class Routes {
   static const String navigation = '/navigation';
+  static const String maps = '/maps';
   static const splash = '/splash';
   static const login = '/login';
   static const signup = '/signup';

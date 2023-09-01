@@ -1,9 +1,13 @@
 // ignore_for_file: file_names
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shield/app/controllers/auth_controller.dart';
 import 'package:shield/app/controllers/volunteer_page_controller.dart';
+import 'package:shield/app/models/volunteer_request.dart';
+import 'package:shield/app/services/firebase_services.dart';
+import 'package:shield/app/views/pages/request_volunteer_page.dart';
 
 import 'package:shield/app/views/widgets/volunteers_request_tile.dart';
 
@@ -49,20 +53,18 @@ class VolunteersPage extends StatelessWidget {
                 _build20PXWidth(),
                 CustomButton(
                   title: "BECOME A VOLUNTEER",
-                  onPressed: () {
+                  onPressed: () async {
                     final authController = Get.put(AuthController());
                     authController.isAuthenticated
-                        ? (Get.snackbar(
-                            "Become Volunteer", "This button has been pressed"))
+                        ? await getRequest()
                         : Get.toNamed(Routes.login);
                   },
                 ),
                 _build20PXWidth(),
                 CustomButton(
                   onPressed: () {
-                    final AuthController authController0 =
-                        Get.put(AuthController());
-                    authController0.signOut();
+                    // Get.to(RequestVolunteerPage());
+                    kRequestVolunteerDialog();
                   },
                   title: "REQUEST VOLUNTEERS",
                 ),
@@ -75,26 +77,93 @@ class VolunteersPage extends StatelessWidget {
                 color: Colors.black,
               ),
             ),
-            GetBuilder<VolunteersController>(
-              init: VolunteersController(),
-              initState: (_) {},
-              builder: (controller) {
-                return Expanded(
-                  child: controller.obx(
-                    (state) => ListView.builder(
-                      itemCount: state?.length,
-                      itemBuilder: (context, index) {
-                        final request = state?[index];
-                        return buildRequestTile(request!);
-                      },
-                    ),
-                    onError: (error) => const Text('Error: '),
-                    onEmpty: const Text('No data available'),
-                    onLoading: const CircularProgressIndicator(),
-                  ),
+            StreamBuilder(
+              stream: firestore.collection('requests').snapshots(),
+              builder: (context, snapshot) {
+                if (!snapshot.hasData) {
+                  return const CircularProgressIndicator();
+                }
+
+                var requests = snapshot.data!.docs;
+                List<VolunteerRequest> requestWidgets = requests.map((doc) {
+                  var requestData = doc.data();
+
+                  final timestamp = requestData['postedTime'];
+                  log(timestamp.toString());
+                  // Convert the timestamp to a datetime object
+                  // final datetime =
+                  //     DateTime.fromMillisecondsSinceEpoch(timestamp);
+                  // log(datetime.toString());
+                  // log(datetime.toString());
+                  // final formattedDatetime =
+                  //     DateFormat('yyyy-MM-dd HH:mm:ss').format(datetime);
+
+                  return VolunteerRequest(
+                      id: requestData['title'],
+                      title: requestData['title'],
+                      description: requestData['description'],
+                      postedTime: DateTime.now(),
+                      // postedTime: DateTime..strptime(timestamp, "%Y-%m-%dT%H:%M:%SZ")(
+                      //     requestData['description']),
+                      requestType: requestData['requestType']);
+                  // return ListTile(
+                  //   title: Text(
+                  //     requestData['title'],
+                  //     style: GoogleFonts.inter(fontSize: 16, color: kBlack),
+                  //   ),
+                  //   subtitle: Text(requestData['description'],
+                  //       style: GoogleFonts.inter(fontSize: 16, color: kBlack)),
+                  // );
+                }).toList();
+                return GetBuilder<VolunteersController>(
+                  init: VolunteersController(),
+                  initState: (_) {},
+                  builder: (controller) {
+                    return Expanded(
+                      child: controller.obx(
+                        (state) => ListView.builder(
+                          itemCount: requestWidgets.length,
+                          itemBuilder: (context, index) {
+                            // final request = state?[index];
+                            return buildRequestTile(requestWidgets[index]);
+                          },
+                        ),
+                        onError: (error) => const Text('Error: '),
+                        onEmpty: const Text('No data available'),
+                        onLoading: const CircularProgressIndicator(),
+                      ),
+                    );
+                  },
                 );
+
+                // return Expanded(
+                //   child: ListView(
+                //     shrinkWrap: true,
+                //     children: requestWidgets,
+                //   ),
+                // );
               },
             ),
+            // GetBuilder<VolunteersController>(
+            //   init: VolunteersController(),
+            //   initState: (_) {},
+            //   builder: (controller) {
+            //     return Expanded(
+            //       child: controller.obx(
+            //         (state) => ListView.builder(
+            //           itemCount: state?.length,
+            //           itemBuilder: (context, index) {
+            //             final request = state?[index];
+            //             return buildRequestTile(request!);
+            //           },
+            //         ),
+            //         onError: (error) => const Text('Error: '),
+            //         onEmpty: const Text('No data available'),
+            //         onLoading: const CircularProgressIndicator(),
+            //       ),
+            //     );
+            //   },
+            // ),
           ],
         ),
       ),

@@ -62,7 +62,7 @@ class GuidesPage extends GetView<GuidesController> {
                 style: GoogleFonts.inter(
                     color: kBlack.withOpacity(0.5), fontSize: 24),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               Expanded(

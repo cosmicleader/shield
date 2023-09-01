@@ -1,9 +1,11 @@
 // ignore: avoid_classes_with_only_static_members
 import 'package:get/get.dart';
 import 'package:shield/app/bindings/login_bindings.dart';
+import 'package:shield/app/bindings/maps_bindings.dart';
 import 'package:shield/app/bindings/navigation_bindings.dart';
 import 'package:shield/app/bindings/volunteers_binding.dart';
 import 'package:shield/app/views/pages/login_page.dart';
+import 'package:shield/app/views/pages/map_screen.dart';
 import 'package:shield/app/views/pages/navigation_bar.dart';
 import 'package:shield/app/views/pages/signup_page.dart';
 import 'package:shield/app/views/pages/volunteers_page.dart';
@@ -68,6 +70,11 @@ class AppPages {
       name: Routes.profile,
       page: () => const ProfilePage(),
       binding: ProfileBinding(),
+    ),
+    GetPage(
+      name: Routes.maps,
+      page: () => const MapScreen(),
+      binding: MapsBinding(),
     ),
   ];
 }

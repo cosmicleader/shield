@@ -1,7 +1,11 @@
+import 'dart:developer';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:shield/app/views/themes/colours.dart';
 // import 'package:firebase_auth/firebase_auth.dart';
 
 class AuthController extends GetxController {
@@ -85,5 +89,134 @@ class AuthController extends GetxController {
 
   Future<void> signInAnonymously() async {
     // Similar to the previous example
+  }
+  Future<bool> reauthenticateUser(String password) async {
+    try {
+      User? user = _auth.currentUser;
+      if (user != null) {
+        AuthCredential credential = EmailAuthProvider.credential(
+          email: user.email!,
+          password: password,
+        );
+
+        await user.reauthenticateWithCredential(credential);
+        return true;
+      }
+    } catch (e) {
+      Get.defaultDialog(
+        title: "Error",
+        content: Text(
+          "Reauthentication failed. ${e.toString()}",
+          style: GoogleFonts.inter(color: kBlack),
+        ),
+        confirm: ElevatedButton(
+          style: ButtonStyle(
+              backgroundColor:
+                  MaterialStateColor.resolveWith((states) => kBlack)),
+          onPressed: () {
+            Get.back();
+          },
+          child: const Text("OK"),
+        ),
+      );
+    }
+    return false;
+  }
+
+//Dialogue box to enter password and get back on success
+
+  Future<void> updateEmail(String newEmail) async {
+    try {
+      User? user = _auth.currentUser;
+      if (user != null) {
+        await user.updateEmail(newEmail);
+        update();
+        Get.back(); // Close the dialog
+        Get.defaultDialog(
+          title: "Success",
+          content: Text(
+            "Email updated successfully!",
+            style: GoogleFonts.inter(color: kBlack),
+          ),
+          confirm: ElevatedButton(
+            style: ButtonStyle(
+                backgroundColor:
+                    MaterialStateColor.resolveWith((states) => kBlack)),
+            onPressed: () {
+              Get.back();
+            },
+            child: const Text("OK"),
+          ),
+        );
+      }
+    } catch (e) {
+      log(e.toString());
+      Get.defaultDialog(
+        title: "Error",
+        content: Text(e.toString()),
+        confirm: ElevatedButton(
+          style: ButtonStyle(
+              backgroundColor:
+                  MaterialStateColor.resolveWith((states) => kBlack)),
+          onPressed: () {
+            Get.back();
+          },
+          child: Text(
+            "OK",
+            style: GoogleFonts.inter(color: kBlack),
+          ),
+        ),
+      );
+    }
+  }
+
+  Future<void> updateName(String newName) async {
+    try {
+      // User user = _auth.currentUser;
+      if (user.value != null) {
+        // UserProfileChangeRequest profileUpdates = UserProfileChangeRequest();
+        // profileUpdates.displayName = newName;
+
+        await user.value!.updateDisplayName(newName);
+        update();
+        Get.back(); // Close the dialog
+        Get.defaultDialog(
+          title: "Success",
+          content: Text(
+            "Name updated successfully!",
+            style: GoogleFonts.inter(color: kBlack),
+          ),
+          confirm: ElevatedButton(
+            style: ButtonStyle(
+                backgroundColor:
+                    MaterialStateColor.resolveWith((states) => kBlack)),
+            onPressed: () {
+              Get.back();
+            },
+            child: Text(
+              "OK",
+              style: GoogleFonts.inter(color: kBlack),
+            ),
+          ),
+        );
+      }
+    } catch (e) {
+      Get.defaultDialog(
+        title: "Error",
+        content: Text(e.toString()),
+        confirm: ElevatedButton(
+          style: ButtonStyle(
+              backgroundColor:
+                  MaterialStateColor.resolveWith((states) => kBlack)),
+          onPressed: () {
+            Get.back();
+          },
+          child: Text(
+            "OK",
+            style: GoogleFonts.inter(color: kBlack),
+          ),
+        ),
+      );
+    }
   }
 }
