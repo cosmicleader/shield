@@ -5,32 +5,42 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:shield/app/controllers/user_controller.dart';
 import 'package:shield/app/views/themes/colours.dart';
 // import 'package:firebase_auth/firebase_auth.dart';
 
 class AuthController extends GetxController {
-  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseAuth auth = FirebaseAuth.instance;
+  final userController = Get.put(UserController());
   final GoogleSignIn _googleSignIn = GoogleSignIn(scopes: ['email']);
   Rx<User?> user = Rx<User?>(null);
+  // Rx<UserModel?> userData = Rx<UserModel?>(null);
 
   @override
   void onInit() {
     super.onInit();
-    user.value = _auth.currentUser;
-    _auth.authStateChanges().listen((currentUser) {
+    user.value = auth.currentUser;
+    auth.authStateChanges().listen((currentUser) {
       user.value = currentUser;
     });
+    if (user.isBlank == false) {
+      userController.getUserByUID(user.value!.uid);
+    }
+    // final userDocRef =
+    // FirebaseFirestore.instance.collection('users').doc(user.value!.uid);
   }
 
   bool get isAuthenticated => user.value != null;
   String? get usernameOrEmail => user.value?.displayName ?? user.value?.email;
   get getUID => user.value?.uid;
-  get getUserName => user.value?.displayName ?? "Unknown user";
+  get getUserName => userController.user.value?.displayName ?? "No Name";
   get getUserEmail => user.value?.email ?? "Unknown email";
-  get getUserPhoneNumber => user.value?.phoneNumber ?? 000000000000;
+  get getUserPhoneNumber =>
+      userController.user.value?.phoneNumber ?? "000000000000";
+  get getPhotoUrl => userController.user.value?.photoURL ?? "";
 
   void signOut() async {
-    await _auth.signOut();
+    await auth.signOut();
   }
 
   final RxBool isLoading = false.obs;
@@ -47,7 +57,7 @@ class AuthController extends GetxController {
           accessToken: googleSignInAuth.accessToken,
           idToken: googleSignInAuth.idToken,
         );
-        await _auth.signInWithCredential(credential);
+        await auth.signInWithCredential(credential);
         isLoading.value = false;
       }
     } catch (error) {
@@ -58,7 +68,7 @@ class AuthController extends GetxController {
 
   Future<void> signInWithEmailAndPassword(String email, String password) async {
     try {
-      await _auth.signInWithEmailAndPassword(email: email, password: password);
+      await auth.signInWithEmailAndPassword(email: email, password: password);
       // Sign in successful, navigate to the next screen or perform necessary actions
     } on FirebaseAuthException catch (e) {
       String errorMessage = getErrorMessage(e);
@@ -96,7 +106,7 @@ class AuthController extends GetxController {
   }
   Future<bool> reauthenticateUser(String password) async {
     try {
-      User? user = _auth.currentUser;
+      User? user = auth.currentUser;
       if (user != null) {
         AuthCredential credential = EmailAuthProvider.credential(
           email: user.email!,
@@ -120,7 +130,10 @@ class AuthController extends GetxController {
           onPressed: () {
             Get.back();
           },
-          child: const Text("OK"),
+          child: Text(
+            "OK",
+            style: GoogleFonts.inter(color: kWhite),
+          ),
         ),
       );
     }
@@ -131,7 +144,7 @@ class AuthController extends GetxController {
 
   Future<void> updateEmail(String newEmail) async {
     try {
-      User? user = _auth.currentUser;
+      User? user = auth.currentUser;
       if (user != null) {
         await user.updateEmail(newEmail);
         update();
@@ -167,7 +180,7 @@ class AuthController extends GetxController {
           },
           child: Text(
             "OK",
-            style: GoogleFonts.inter(color: kBlack),
+            style: GoogleFonts.inter(color: kWhite),
           ),
         ),
       );
@@ -199,7 +212,7 @@ class AuthController extends GetxController {
             },
             child: Text(
               "OK",
-              style: GoogleFonts.inter(color: kBlack),
+              style: GoogleFonts.inter(color: kWhite),
             ),
           ),
         );
@@ -217,7 +230,7 @@ class AuthController extends GetxController {
           },
           child: Text(
             "OK",
-            style: GoogleFonts.inter(color: kBlack),
+            style: GoogleFonts.inter(color: kWhite),
           ),
         ),
       );

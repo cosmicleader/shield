@@ -2,15 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shield/app/controllers/auth_controller.dart';
-
 import '../themes/colours.dart';
 
-// import '../../controllers/profile_controller.dart';
+// Function to reauthenticate the user before performing a sensitive action
+void reauthenticateUser(Function? actionToRun) async {
+  final TextEditingController passwordController = TextEditingController();
+  final AuthController authController = Get.find<AuthController>();
 
-kReathenticate(Function? run) async {
-  TextEditingController passwordController = TextEditingController();
-  final AuthController authController = Get.put(AuthController());
-
+  // Display a dialog for reauthentication
   Get.defaultDialog(
     radius: 8,
     title: "Reauthenticate",
@@ -40,18 +39,19 @@ kReathenticate(Function? run) async {
     ),
     confirm: ElevatedButton(
       style: ButtonStyle(
-          backgroundColor: MaterialStateColor.resolveWith((states) => kBlack)),
+        backgroundColor: MaterialStateColor.resolveWith((states) => kBlack),
+      ),
       onPressed: () async {
-        bool reauthenticated =
+        final reauthenticated =
             await authController.reauthenticateUser(passwordController.text);
+
         if (reauthenticated) {
           Get.back(); // Close the reauthentication dialog
-          // Replace with your action upon successful reauthentication
-          // For example, you can show the email update dialog here
-          // showEmailUpdateDialog();
-          run;
+          // Execute the action upon successful reauthentication
+          actionToRun?.call();
         } else {
           Get.back(); // Close the reauthentication dialog
+          // Display an error dialog if reauthentication fails
           Get.defaultDialog(
             title: "Error",
             content: Text(
@@ -60,14 +60,15 @@ kReathenticate(Function? run) async {
             ),
             confirm: ElevatedButton(
               style: ButtonStyle(
-                  backgroundColor:
-                      MaterialStateColor.resolveWith((states) => kBlack)),
+                backgroundColor:
+                    MaterialStateColor.resolveWith((states) => kBlack),
+              ),
               onPressed: () {
                 Get.back();
               },
               child: Text(
                 "OK",
-                style: GoogleFonts.inter(color: kBlack),
+                style: GoogleFonts.inter(color: kWhite),
               ),
             ),
           );
@@ -75,18 +76,19 @@ kReathenticate(Function? run) async {
       },
       child: Text(
         "Reauthenticate",
-        style: GoogleFonts.inter(color: kBlack),
+        style: GoogleFonts.inter(color: kWhite),
       ),
     ),
     cancel: ElevatedButton(
       style: ButtonStyle(
-          backgroundColor: MaterialStateColor.resolveWith((states) => kBlack)),
+        backgroundColor: MaterialStateColor.resolveWith((states) => kBlack),
+      ),
       onPressed: () {
         Get.back();
       },
       child: Text(
         "Cancel",
-        style: GoogleFonts.inter(color: kBlack),
+        style: GoogleFonts.inter(color: kWhite),
       ),
     ),
   );

@@ -43,7 +43,7 @@ kEmailUpdateDialogueBox({required ProfileController controller}) {
       },
       child: Text(
         "Update",
-        style: GoogleFonts.inter(color: kBlack),
+        style: GoogleFonts.inter(color: kWhite),
       ),
     ),
     cancel: ElevatedButton(
@@ -54,7 +54,7 @@ kEmailUpdateDialogueBox({required ProfileController controller}) {
       },
       child: Text(
         "Cancel",
-        style: GoogleFonts.inter(color: kBlack),
+        style: GoogleFonts.inter(color: kWhite),
       ),
     ),
   );

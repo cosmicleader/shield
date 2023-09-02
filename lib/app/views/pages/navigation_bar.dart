@@ -34,6 +34,7 @@ class NavigationBar extends GetView<NavigationController> {
       floatingActionButton: FloatingActionButton(
         backgroundColor: kRed,
         onPressed: controller.showModalBottomSheet,
+
         child: const Icon(Icons.food_bank_outlined),
         //params
       ),
@@ -76,3 +77,6 @@ buildCustomNavigator(currentIndex) {
       return const VolunteersPage();
   }
 }
+
+
+//================================

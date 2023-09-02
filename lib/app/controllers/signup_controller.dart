@@ -86,59 +86,6 @@ class SignUpController extends GetxController {
     }
   }
 
-  // Future<void> signUp() async {
-  //   try {
-  //     final String email = emailController.text.trim();
-  //     final String password = passwordController.text;
-  //     final String displayName = displayNameController.text;
-  //     final String phoneNumber = phoneNumberController.text;
-  //     final String dateOfBirth = dateOfBirthController.text;
-  //     final String gender = genderController.text;
-  //     final String location = locationController.text;
-
-  //     UserCredential userCredential =
-  //         await _auth.createUserWithEmailAndPassword(
-  //       email: email,
-  //       password: password,
-  //     );
-
-  //     if (userCredential.user != null) {
-  //       // await userCredential.user?.updateProfile(
-  //       //   displayName: displayName,
-  //       //   photoURL: '',
-  //       // );
-  //       await userCredential.user!.updatePhotoURL('');
-
-  //       final String? uid = userCredential.user?.uid;
-  //       final CollectionReference usersCollection =
-  //           FirebaseFirestore.instance.collection('users');
-
-  //       await usersCollection.doc(uid).set({
-  //         'displayName': displayName,
-  //         'phoneNumber': phoneNumber,
-  //         'dateOfBirth': dateOfBirth,
-  //         'gender': gender,
-  //         'location': location,
-  //       });
-
-  //       // Upload profile picture if available
-  //       if (profilePicture.value != null) {
-  //         final String pictureUrl =
-  //             await uploadProfilePicture(uid!, profilePicture.value!);
-  //         await userCredential.user!.updatePhotoURL(pictureUrl);
-  //         // await userCredential.user?.updateProfile(photoURL: pictureUrl);
-  //       }
-
-  //       // Navigate to the next screen or perform necessary actions
-  //       // For example: Get.offAllNamed('/home');
-  //     } else {
-  //       debugPrint('Signup failed');
-  //     }
-  //   } catch (e) {
-  //     debugPrint('Signup error: $e');
-  //   }
-  // }
-
   void submitForm() {
     if (formKey.currentState!.validate()) {
       signUp();
