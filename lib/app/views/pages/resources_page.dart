@@ -64,8 +64,8 @@ class ResourcesPage extends StatelessWidget {
                               },
                               items: <String>[
                                 'All',
-                                'Type A',
-                                'Type B',
+                                'Water',
+                                'Cloths',
                                 // Add more types as needed
                               ].map<DropdownMenuItem<String>>((String value) {
                                 return DropdownMenuItem<String>(
@@ -80,14 +80,30 @@ class ResourcesPage extends StatelessWidget {
                     ],
                   ),
                   Expanded(
-                    child: ListView.builder(
-                      itemCount: resourceController.resources.length,
-                      itemBuilder: (context, index) {
-                        Resource resource = resourceController.resources[index];
+                      child: ListView.builder(
+                    itemCount: resourceController.resources.length,
+                    itemBuilder: (context, index) {
+                      final resource = resourceController.resources[index];
+
+                      // Check if the resource type matches the selected filter type
+                      if (resourceController.filterByValue.value == 'All' ||
+                          resource.type ==
+                              resourceController.filterByValue.value) {
                         return buildCustomResourceCard(resource, context);
-                      },
-                    ),
-                  ),
+                      }
+
+                      // If the filter doesn't match, return an empty container
+                      return Container();
+                    },
+                  )
+                      //  ListView.builder(
+                      //   itemCount: resourceController.resources.length,
+                      //   itemBuilder: (context, index) {
+                      //     Resource resource = resourceController.resources[index];
+                      //     return buildCustomResourceCard(resource, context);
+                      //   },
+                      // ),
+                      ),
                 ],
               )),
         ),
