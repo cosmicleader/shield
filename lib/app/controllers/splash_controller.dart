@@ -15,7 +15,7 @@ class SplashController extends GetxController
   Future<void> loadAppConfig() async {
     try {
       final String data =
-          await rootBundle.loadString('lib/assets/config_data/app_config.json');
+          await rootBundle.loadString('assets/config_data/app_config.json');
       final appConfigData = json.decode(data);
       change(appConfigData, status: RxStatus.success());
       if (appConfigData != null) {

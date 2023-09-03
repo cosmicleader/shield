@@ -1,15 +1,19 @@
 import 'package:get/get.dart';
+import 'package:shield/app/bindings/guides_cover_bindings.dart';
 import 'package:shield/app/bindings/login_bindings.dart';
 import 'package:shield/app/bindings/navigation_bindings.dart';
 import 'package:shield/app/bindings/volunteers_binding.dart';
+import 'package:shield/app/views/pages/guides_cover_page.dart';
 import 'package:shield/app/views/pages/login_page.dart';
 import 'package:shield/app/views/pages/navigation_bar.dart';
 import 'package:shield/app/views/pages/signup_page.dart';
 import 'package:shield/app/views/pages/volunteers_page.dart';
 
+import '../bindings/guides_bindings.dart';
 import '../bindings/maps_bindings.dart';
 import '../bindings/signup_bindigs.dart';
 import '../bindings/splash_bindings.dart';
+import '../views/pages/guides_page.dart';
 import '../views/pages/map_screen.dart';
 import '../views/pages/splash_screen.dart';
 
@@ -61,6 +65,17 @@ class AppPages {
       binding: MapsBinding(), // Binding for this route
       transition: Transition.fadeIn, // Animation: Fade In
     ),
+    GetPage(
+        name: Routes.guidesCover,
+        page: (() => GuidesCoverPage()),
+        binding: GuidesCoverBinding(),
+        transition: Transition.cupertinoDialog),
+
+    GetPage(
+        name: Routes.guides,
+        page: (() => GuidesPage()),
+        binding: GuidesBinding(),
+        transition: Transition.cupertinoDialog),
     // Add more routes with comments and transitions here...
   ];
 }

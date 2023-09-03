@@ -13,7 +13,6 @@ class GuidesCoverPage extends GetView<GuidesCoverController> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        // appBar: AppBar(title: const Text('Guides Cover Page')),
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
           child: Column(
@@ -55,7 +54,7 @@ class GuidesCoverPage extends GetView<GuidesCoverController> {
 
   Image buildLogo() {
     return Image.asset(
-      'lib/assets/thumb/guides_cover.png',
+      'assets/thumb/guides_cover.png',
     );
   }
 

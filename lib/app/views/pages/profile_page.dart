@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:audioplayers/audioplayers.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -10,6 +13,7 @@ import 'package:shield/app/views/dialogs/email_update_dialoguebox.dart';
 import 'package:shield/app/views/themes/colours.dart';
 import 'package:shield/app/views/widgets/custom_button.dart';
 
+import '../../services/audio_services.dart';
 import '../dialogs/reauthenticate_dialoguebox.dart';
 import '../dialogs/update_name_dialogue.dart';
 
@@ -40,7 +44,16 @@ class ProfilePage extends GetView<ProfileController> {
               _buildHeight(10),
               _buildChooseLocationButton(mapsController, context),
               _buildHeight(10),
-              _buildAlertMyLocationCard(controller, context),
+              GetBuilder<AlertController>(
+                init: AlertController(),
+                initState: (_) {},
+                builder: (alertController) {
+                  return alertController.status.isSuccess
+                      ? _buildAlertMyLocationStopCard(alertController, context)
+                      : _buildAlertMyLocationStartCard(
+                          alertController, context);
+                },
+              )
             ],
           ),
         ),
@@ -199,8 +212,33 @@ class ProfilePage extends GetView<ProfileController> {
     );
   }
 
-  Widget _buildAlertMyLocationCard(
-      ProfileController controller, BuildContext context) {
+  Widget _buildAlertMyLocationStopCard(
+      AlertController controller, BuildContext context) {
+    return InkWell(
+      onTap: () {
+        controller.stopAlert();
+      },
+      child: Card(
+        child: Container(
+          height: MediaQuery.of(context).size.height * 0.2,
+          width: MediaQuery.of(context).size.width - 40,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(8),
+            gradient: LinearGradient(colors: [kRed, kOrange]),
+          ),
+          child: Center(
+            child: Text(
+              "Stop Alert",
+              style: GoogleFonts.inter(color: kWhite),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildAlertMyLocationStartCard(
+      AlertController controller, BuildContext context) {
     return InkWell(
       onTap: () {
         controller.showAlert();
@@ -223,257 +261,90 @@ class ProfilePage extends GetView<ProfileController> {
       ),
     );
   }
+  // Widget _buildAlertMyLocationCard(
+  //     ProfileController controller, BuildContext context) {
+  //   return InkWell(
+  //     onTap: () {
+  //       controller.showAlert();
+  //     },
+  //     child: Card(
+  //       child: Container(
+  //         height: MediaQuery.of(context).size.height * 0.2,
+  //         width: MediaQuery.of(context).size.width - 40,
+  //         decoration: BoxDecoration(
+  //           borderRadius: BorderRadius.circular(8),
+  //           gradient: LinearGradient(colors: [kRed, kOrange]),
+  //         ),
+  //         child: Center(
+  //           child: Text(
+  //             "Alert My Location",
+  //             style: GoogleFonts.inter(color: kWhite),
+  //           ),
+  //         ),
+  //       ),
+  //     ),
+  //   );
+  // }
 }
 
+// import 'dart:async';
 // import 'package:flutter/material.dart';
 // import 'package:get/get.dart';
 // import 'package:google_fonts/google_fonts.dart';
-// import 'package:map_location_picker/map_location_picker.dart';
-// import 'package:shield/app/controllers/auth_controller.dart';
-// import 'package:shield/app/views/dialogs/reauthenticate_dialoguebox.dart';
-// import 'package:shield/app/views/dialogs/update_name_dialogue.dart';
-// import 'package:shield/app/views/themes/colours.dart';
-// import 'package:shield/app/views/widgets/custom_button.dart';
+// import 'package:audioplayers/audioplayers.dart';
 
-// import '../../controllers/map_controller.dart';
-// import '../../controllers/profile_controller.dart';
-// import '../dialogs/email_update_dialoguebox.dart';
+class AlertController extends GetxController with StateMixin {
+  final alertService = AlertService();
+  final interval = 1.obs;
+  final times = 1.obs;
+  final recipient = ''.obs;
+  final disabled = false.obs;
+  final soundFile = ''.obs;
+  RxBool isPlaying = false.obs;
+  final player = AudioPlayer();
+  Timer? _timer;
 
-// class ProfilePage extends GetView<ProfileController> {
-//   const ProfilePage({super.key});
+  void showAlert() {
+    if (disabled.value) return;
 
-//   @override
-//   Widget build(BuildContext context) {
-//     return SafeArea(
-//       child: Scaffold(
-//         body: Center(
-//           child: Column(
-//             children: [
-//               const SizedBox(
-//                 height: 20,
-//               ),
-//               Container(
-//                 margin: const EdgeInsets.all(20),
-//                 padding: const EdgeInsets.all(20),
-//                 decoration: BoxDecoration(
-//                   borderRadius: BorderRadius.circular(180),
-//                   gradient: LinearGradient(colors: [kRed, kOrange]),
-//                 ),
-//                 child: GetBuilder<AuthController>(
-//                   init: AuthController(),
-//                   initState: (_) {},
-//                   builder: (authController) {
-//                     return authController.user.value?.photoURL != null
-//                         ? CircleAvatar(
-//                             radius: 100,
-//                             backgroundImage: NetworkImage(
-//                                 authController.user.value!.photoURL ?? ''),
-//                           )
-//                         : Icon(
-//                             Icons.person,
-//                             size: 50,
-//                             color: kWhite,
-//                           );
-//                   },
-//                 ),
-//               ),
-//               Container(
-//                 height: 45,
-//                 margin: const EdgeInsets.symmetric(horizontal: 20),
-//                 decoration: BoxDecoration(
-//                   borderRadius: BorderRadius.circular(8),
-//                   color: kGray.withOpacity(0.5),
-//                 ),
-//                 child: Card(
-//                   child: Row(
-//                     mainAxisAlignment: MainAxisAlignment.center,
-//                     children: [
-//                       Text(
-//                         "Name:",
-//                         style: GoogleFonts.inter(
-//                             fontWeight: FontWeight.bold, color: kBlack),
-//                       ),
-//                       const SizedBox(
-//                         width: 5,
-//                       ),
-//                       GetX<AuthController>(
-//                         init: AuthController(),
-//                         initState: (_) {},
-//                         builder: (authController) {
-//                           return Text(
-//                             authController.user.value?.displayName ?? 'Guest',
-//                             style: GoogleFonts.inter(
-//                               color: kBlack,
-//                             ),
-//                           );
-//                         },
-//                       ),
-//                       IconButton(
-//                         color: kGray,
-//                         onPressed: () {
-//                           kUpdateUsername();
-//                         },
-//                         icon: const Icon(
-//                           Icons.edit_square,
-//                         ),
-//                       ),
-//                     ],
-//                   ),
-//                 ),
-//               ),
-//               // Email
-//               const SizedBox(
-//                 height: 10,
-//               ),
-//               GetBuilder<AuthController>(
-//                 init: AuthController(),
-//                 initState: (_) {},
-//                 builder: (authController) {
-//                   return authController.user.value != null
-//                       ? Container(
-//                           height: 45,
-//                           margin: const EdgeInsets.symmetric(horizontal: 20),
-//                           decoration: BoxDecoration(
-//                             borderRadius: BorderRadius.circular(8),
-//                             color: kGray.withOpacity(0.5),
-//                           ),
-//                           child: Card(
-//                             child: Row(
-//                               mainAxisAlignment: MainAxisAlignment.center,
-//                               children: [
-//                                 const SizedBox(width: 5),
-//                                 Text(
-//                                   "Email:",
-//                                   style: GoogleFonts.inter(
-//                                       fontWeight: FontWeight.bold,
-//                                       color: kBlack),
-//                                 ),
-//                                 const SizedBox(
-//                                   width: 5,
-//                                 ),
-//                                 Text(authController.user.value!.email!),
-//                                 IconButton(
-//                                   color: kGray,
-//                                   onPressed: () {
-//                                     kReathenticate(kEmailUpdateDialogueBox(
-//                                         controller: controller));
-//                                     controller.update();
-//                                   },
-//                                   icon: const Icon(
-//                                     Icons.edit_square,
-//                                   ),
-//                                 ),
-//                               ],
-//                             ),
-//                           ),
-//                         )
-//                       : const Text("Please Sign in");
-//                 },
-//               ),
-//               SizedBox(
-//                 height: 10,
-//               ),
-//               GetBuilder<AuthController>(
-//                 init: AuthController(),
-//                 initState: (_) {},
-//                 builder: (authController) {
-//                   return authController.user.value != null
-//                       ? CustomButton(
-//                           kwidth: MediaQuery.of(context).size.width - 40,
-//                           kheight: 45,
-//                           title: 'Logout',
-//                           onPressed: () {
-//                             authController.signOut();
-//                             controller.update();
-//                             authController.update();
-//                           },
-//                         )
-//                       : CustomButton(
-//                           kwidth: MediaQuery.of(context).size.width - 40,
-//                           kheight: 45,
-//                           title: 'Sign in',
-//                           onPressed: () {
-//                             Get.toNamed('/login');
-//                             controller.update();
-//                             authController.update();
-//                           });
-//                 },
-//               ),
-//               SizedBox(
-//                 height: 10,
-//               ),
-//               GetBuilder<MapsController>(
-//                 init: MapsController(),
-//                 initState: (_) {},
-//                 builder: (mapsController) {
-//                   return CustomButton(
-//                     kwidth: MediaQuery.of(context).size.width - 40,
-//                     kheight: 45,
-//                     title: 'Choose Location',
-//                     onPressed: () {
-//                       showDialog(
-//                         context: context,
-//                         builder: (context) {
-//                           return GetBuilder<MapsController>(
-//                             init: MapsController(),
-//                             initState: (_) {},
-//                             builder: (mapsController) {
-//                               return AlertDialog(
-//                                 title: const Text('Example'),
-//                                 content: PlacesAutocomplete(
-//                                   apiKey:
-//                                       "AIzaSyAFY6EGZliOQ4Ovc_SD4x8BpFkerPmse6U",
-//                                   searchHintText: "Search for a place",
-//                                   mounted: true,
-//                                   hideBackButton: true,
-//                                   initialValue:
-//                                       mapsController.initialValue.value,
-//                                   onSuggestionSelected: (value) {
-//                                     mapsController.updateInitialValue(value);
-//                                     mapsController.update();
-//                                   },
-//                                   onGetDetailsByPlaceId:
-//                                       mapsController.updateAddress,
-//                                 ),
-//                               );
-//                             },
-//                           );
-//                         },
-//                       );
-//                     },
-//                   );
-//                 },
-//               ),
-//               SizedBox(
-//                 height: 10,
-//               ),
+    _sendSMS();
+    alertService.playSound();
+    _timer = Timer.periodic(
+      Duration(minutes: interval.value),
+      (timer) {
+        if (timer.tick >= times.value) {
+          timer.cancel();
+        } else {
+          _sendSMS();
+          alertService.playSound();
+        }
+      },
+    );
+    change(null, status: RxStatus.success());
+  }
 
-//               InkWell(
-//                 onTap: () {
-//                   controller.showAlert();
-//                 },
-//                 child: Card(
-//                   child: Container(
-//                     height: MediaQuery.of(context).size.height * 0.2,
-//                     width: MediaQuery.of(context).size.width - 40,
-//                     decoration: BoxDecoration(
-//                       borderRadius: BorderRadius.circular(8),
-//                       // color: Colors.amber,
-//                       gradient: LinearGradient(colors: [kRed, kOrange]),
-//                     ),
-//                     child: Center(
-//                       child: Text(
-//                         "Alert My Location",
-//                         style: GoogleFonts.inter(color: kWhite),
-//                       ),
-//                     ),
-//                   ),
-//                 ),
-//               ),
-//             ],
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-// }
+  void stopAlert() {
+    _timer?.cancel();
+    change(null, status: RxStatus.empty());
+  }
+
+  //return bool wheather if it's playing or not
+//  isPlaying.value = _isPlaying();
+  bool _isPlaying() {
+    return player.state == PlayerState.playing;
+  }
+
+  void _sendSMS() {
+    // Use GetX service to send SMS to recipient with current location
+    // Get.find<SmsService>().sendSms(recipient.value, 'My current location is ...');
+  }
+
+  // void _playSound() async {
+  //   // Play the alert sound file at the current volume
+  //   // final player = AudioCache();
+
+  //   // player.play(soundFile.value);
+
+  //   await player.play(AssetSource('alert_sound.mp3'));
+  // }
+}

@@ -29,6 +29,8 @@ dependencies:
   firebase_storage: ^11.2.6
   map_location_picker: ^1.2.6
   intl: ^0.18.1
+  just_audio: ^0.9.34
+  audioplayers: ^5.1.0
   
   
   
@@ -44,8 +46,9 @@ flutter:
 
   uses-material-design: true
   assets:
-    - lib/assets/sample_data/volunteers_list.json
-    - lib/assets/config_data/app_config.json
-    - "lib/assets/thumb/volunteers_page_thumb.png"
-    - "lib/assets/thumb/guides_cover.png"
-    - lib/assets/sample_data/guides_list.json
+    - "assets/sample_data/volunteers_list.json"
+    - "assets/config_data/app_config.json"
+    - "assets/thumb/volunteers_page_thumb.png"
+    - "assets/thumb/guides_cover.png"
+    - "assets/sample_data/guides_list.json"
+    - "assets/alert_sound.mp3"

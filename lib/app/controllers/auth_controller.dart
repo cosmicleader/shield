@@ -23,9 +23,9 @@ class AuthController extends GetxController {
     auth.authStateChanges().listen((currentUser) {
       user.value = currentUser;
     });
-    if (user.isBlank == false) {
-      userController.getUserByUID(user.value!.uid);
-    }
+    // if (user.isBlank == false) {
+    //   userController.getUserByUID(user.value?.uid);
+    // }
     // final userDocRef =
     // FirebaseFirestore.instance.collection('users').doc(user.value!.uid);
   }

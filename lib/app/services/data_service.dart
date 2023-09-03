@@ -29,8 +29,8 @@ class DataService {
       // return;
     }
     try {
-      final jsonString = await rootBundle
-          .loadString('lib/assets/sample_data/guides_list.json');
+      final jsonString =
+          await rootBundle.loadString('assets/sample_data/guides_list.json');
       // log("List Data ${jsonString}");
       final data = json.decode(jsonString);
       log("List Data $data");
