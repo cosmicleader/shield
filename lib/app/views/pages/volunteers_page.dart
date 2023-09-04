@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shield/app/controllers/auth_controller.dart';
 import 'package:shield/app/controllers/volunteer_page_controller.dart';
-import 'package:shield/app/services/firebase_services.dart';
+import 'package:shield/app/services/firebase_service.dart';
 import 'package:shield/app/views/pages/request_volunteer_page.dart';
 import 'package:shield/app/views/widgets/request_tile.dart';
 import '../../routes/app_pages.dart';
@@ -159,6 +159,7 @@ class ButtonSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final firebaseService = Get.put(FirebaseService());
     return Row(
       children: [
         const Spacer(),
@@ -169,7 +170,7 @@ class ButtonSection extends StatelessWidget {
           onPressed: () async {
             final authController = Get.put(AuthController());
             authController.isAuthenticated
-                ? await getRequest()
+                ? await firebaseService.getRequest()
                 : Get.toNamed(Routes.login);
           },
         ),

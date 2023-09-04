@@ -1,7 +1,5 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-// ignore_for_file: unused_element
-
 part of 'guides_model.dart';
 
 // **************************************************************************
@@ -61,19 +59,22 @@ class GuideStepAdapter extends TypeAdapter<GuideStep> {
     return GuideStep(
       step: fields[0] as int,
       imageUrl: fields[1] as String,
-      description: fields[2] as String,
+      title: fields[2] as String,
+      description: fields[3] as String,
     );
   }
 
   @override
   void write(BinaryWriter writer, GuideStep obj) {
     writer
-      ..writeByte(3)
+      ..writeByte(4)
       ..writeByte(0)
       ..write(obj.step)
       ..writeByte(1)
       ..write(obj.imageUrl)
       ..writeByte(2)
+      ..write(obj.title)
+      ..writeByte(3)
       ..write(obj.description);
   }
 
@@ -109,11 +110,13 @@ Map<String, dynamic> _$GuidesToJson(Guides instance) => <String, dynamic>{
 GuideStep _$GuideStepFromJson(Map<String, dynamic> json) => GuideStep(
       step: json['step'] as int,
       imageUrl: json['imageUrl'] as String,
+      title: json['title'] as String,
       description: json['description'] as String,
     );
 
 Map<String, dynamic> _$GuideStepToJson(GuideStep instance) => <String, dynamic>{
       'step': instance.step,
       'imageUrl': instance.imageUrl,
+      'title': instance.title,
       'description': instance.description,
     };

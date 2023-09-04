@@ -12,14 +12,4 @@ class VolunteerRequest {
     required this.postedTime,
     required this.requestType,
   });
-
-  // factory VolunteerRequest.fromJson(Map<String, dynamic> json) {
-  //   return VolunteerRequest(
-  //     id: json['id'],
-  //     title: json['title'],
-  //     description: json['description'],
-  //     postedTime: DateTime.parse(json['postedTime']),
-  //     requestType: json['requestType'],
-  //   );
-  // }
 }

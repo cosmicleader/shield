@@ -46,7 +46,7 @@ class Guides {
 
   factory Guides.fromJson(Map<String, dynamic> json) => Guides(
         id: json["id"],
-        name: json["name"],
+        name: json["hazardsName"],
         elements: List<GuideStep>.from(
             json["elements"].map((x) => GuideStep.fromJson(x))),
       );
@@ -66,98 +66,28 @@ class GuideStep {
   @HiveField(1)
   String imageUrl;
   @HiveField(2)
+  String title;
+  @HiveField(3)
   String description;
 
   GuideStep({
     required this.step,
     required this.imageUrl,
+    required this.title,
     required this.description,
   });
 
   factory GuideStep.fromJson(Map<String, dynamic> json) => GuideStep(
         step: json["step"],
         imageUrl: json["imageURL"],
+        title: json["title"],
         description: json["description"],
       );
 
   Map<String, dynamic> toJson() => {
         "step": step,
         "imageURL": imageUrl,
+        "title": title,
         "description": description,
       };
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// @JsonSerializable()
-// @HiveType(typeId: 0)
-// class ListElement {
-//   final int step;
-//   final String imageURL;
-//   final String description;
-
-//   ListElement(this.step, this.imageURL, this.description);
-
-//   // factory ListElement.fromJson(Map<String, dynamic> json) =>
-//   //     _$ListElementFromJson(json);
-//   factory ListElement.fromJson(Map<String, dynamic> json) => 
-  
-//   // ListElement(
-//   //       step: json["step"],
-//   //       imageUrl: json["imageURL"],
-//   //       description: json["description"],
-//   //     );
-
-//   Map<String, dynamic> toJson() => {
-//         "step": step,
-//         "imageURL": imageUrl,
-//         "description": description,
-//       };
-// }
-
-// @JsonSerializable()
-// @HiveType(typeId: 1)
-// class ListData {
-//   final String id;
-//   final String name;
-//   final List<ListElement> elements;
-
-//   ListData(this.id, this.name, this.elements);
-
-//   // factory ListData.fromJson(Map<String, dynamic> json) =>
-//   //     _$ListDataFromJson(json);
-
-//   // Map<String, dynamic> toJson() => _$ListDataToJson(this);
-//   factory ListData.fromJson(Map<String, dynamic> json) => ListData(
-//         id: json["id"],
-//         name: json["name"],
-//         elements: List<ListElement>.from(
-//             json["elements"].map((x) => ListElement.fromJson(x))),
-//       );
-
-//   Map<String, dynamic> toJson() => {
-//         "id": id,
-//         "name": name,
-//         "elements": List<dynamic>.from(ListElement.map((x) => x.toJson())),
-//       };
-
-//   Map<String, dynamic> toJson() => _$ListElementToJson(this);
-// }

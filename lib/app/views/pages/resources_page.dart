@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shield/app/controllers/confirm_resources_controller.dart';
 import 'package:shield/app/views/themes/colours.dart';
 
 import '../../controllers/resources_controller.dart';
@@ -95,15 +96,7 @@ class ResourcesPage extends StatelessWidget {
                       // If the filter doesn't match, return an empty container
                       return Container();
                     },
-                  )
-                      //  ListView.builder(
-                      //   itemCount: resourceController.resources.length,
-                      //   itemBuilder: (context, index) {
-                      //     Resource resource = resourceController.resources[index];
-                      //     return buildCustomResourceCard(resource, context);
-                      //   },
-                      // ),
-                      ),
+                  )),
                 ],
               )),
         ),
@@ -191,6 +184,10 @@ Card buildCustomResourceCard(Resource resource, BuildContext context) {
                   ),
                   onPressed: () {
                     // Handle resource request here
+                    showDialog(
+                      context: context,
+                      builder: (context) => ResourceRequestDialog(),
+                    );
                   },
                   child: const Text('Request'),
                 ),
@@ -211,67 +208,75 @@ Card buildCustomResourceCard(Resource resource, BuildContext context) {
   );
 }
 
+class ResourceRequestDialog extends StatelessWidget {
+  final TextEditingController _additionalDetailsController =
+      TextEditingController();
 
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: Text(
+        'Confirmation',
+        style: GoogleFonts.inter(
+            color: kBlack, fontSize: 16, fontWeight: FontWeight.bold),
+      ),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            'Do you want to send this request?',
+            style: GoogleFonts.inter(
+              color: kBlack,
+              fontSize: 16,
+            ),
+          ),
+          const SizedBox(height: 8.0),
+          TextFormField(
+            controller: _additionalDetailsController,
+            maxLines: 3,
+            decoration: const InputDecoration(
+              labelText: 'Additional Details (optional)',
+              border: OutlineInputBorder(),
+            ),
+          ),
+        ],
+      ),
+      actions: [
+        TextButton(
+          onPressed: () {
+            Get.back(); // Close the dialog
+          },
+          child: Text(
+            'Cancel',
+            style: GoogleFonts.inter(
+              color: kBlack,
+              fontSize: 12,
+            ),
+          ),
+        ),
+        ElevatedButton(
+          style: ButtonStyle(
+            backgroundColor: MaterialStateProperty.all(kBlack),
+          ),
+          onPressed: () {
+            // Perform the request and use _additionalDetailsController.text
+            // to access the additional details.
+            String additionalDetails = _additionalDetailsController.text;
+            _additionalDetailsController.clear();
+            final confirmResourcesController =
+                Get.put(ConfirmResourcesController());
+            // Add your logic here
+            confirmResourcesController.sendRequest(additionalDetails);
 
-
-// Card buildCustomResourceCard(Resource resource) {
-//   return Card(
-//     elevation: 4.0,
-//     margin: EdgeInsets.all(8.0),
-//     child: InkWell(
-//       onTap: () {
-//         // Handle resource selection or request here
-//       },
-//       child: Padding(
-//         padding: const EdgeInsets.all(16.0),
-//         child: Column(
-//           crossAxisAlignment: CrossAxisAlignment.start,
-//           children: [
-//             Text(
-//               resource.title,
-//               style: TextStyle(
-//                 fontSize: 18.0,
-//                 fontWeight: FontWeight.bold,
-//               ),
-//             ),
-//             SizedBox(height: 8.0),
-//             Text(
-//               'Type: ${resource.type}',
-//               style: TextStyle(
-//                 fontSize: 14.0,
-//               ),
-//             ),
-//             Text(
-//               'Location: ${resource.location}',
-//               style: TextStyle(
-//                 fontSize: 14.0,
-//               ),
-//             ),
-//             SizedBox(height: 8.0),
-//             Row(
-//               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//               children: [
-//                 Text(
-//                   resource.isAvailable ? 'Available' : 'Unavailable',
-//                   style: TextStyle(
-//                     fontWeight: FontWeight.bold,
-//                     color: resource.isAvailable ? Colors.green : Colors.red,
-//                   ),
-//                 ),
-//                 ElevatedButton(
-//                   style: ButtonStyle(
-//                     backgroundColor: MaterialStateProperty.all(Colors.black),
-//                   ),
-//                   onPressed: () {
-//                     // Handle resource request here
-//                   },
-//                   child: Text('Request'),
-//                 ),
-//               ],
-//             ),
-//           ],
-//         ),
-//       ),
-//     ),
-//   );
-// }
+            Get.back(); // Close the dialog
+          },
+          child: Text(
+            'Confirm',
+            style: GoogleFonts.inter(
+                color: kWhite, fontSize: 12, fontWeight: FontWeight.w600),
+          ),
+        ),
+      ],
+    );
+  }
+}

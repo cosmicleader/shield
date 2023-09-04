@@ -10,9 +10,7 @@ class AcceptVolunteerRequestController extends GetxController {
       final name = authController.getUserName;
       final number = authController.getUserPhoneNumber;
       final querySnapshot = await FirebaseFirestore.instance
-          .collection('titles')
-          .doc(title)
-          .collection('confirmed_entries')
+          .collection('confirmed_requests')
           .where('UID', isEqualTo: uid)
           .get();
 
@@ -21,15 +19,14 @@ class AcceptVolunteerRequestController extends GetxController {
         return;
       }
       final data = {
+        'id': title,
         'UID': uid,
         'Name': name,
         'Number': number,
       };
 
       await FirebaseFirestore.instance
-          .collection('titles')
-          .doc(title)
-          .collection('confirmed_entries')
+          .collection('confirmed_requests')
           .add(data);
 
       Get.snackbar('Hi ${authController.usernameOrEmail}',

@@ -1,56 +1,62 @@
-import 'dart:developer';
-
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
-import 'package:shield/app/services/data_service.dart';
+import 'package:shield/app/services/firebase_service.dart';
 
 import '../models/guides_model.dart';
 
 class GuidesController extends GetxController with StateMixin<List<Guides>> {
-  final _services = DataService();
-  RxList<String> dropDownOptions = ['List 1', 'List 2'].obs;
-  final Map<String, Guides> categoryMap = {}; // Create an empty HashMap
-  List<Guides> allListData = [];
-  // late var dropDownOptions = <String>[];
+  final FirebaseService _firebaseService = FirebaseService();
 
-  /// Need To create a new controller for the drop down menu since this one only loads the list view builder
-  late Rx<Guides> selectedCategory; // Declare selectedCategory as Rx
+  RxList<String> dropDownOptions = <String>['Earthquake indoor'].obs;
+  Rx<Guides>? selectedCategory;
+  RxList<Guides> guides = <Guides>[].obs;
 
   @override
   void onInit() {
-    selectedCategory = Guides(id: "list_1", name: "List 1", elements: []).obs;
-    loadData();
-    dropDownOptions.value = allListData.map((guide) => guide.name).toList();
-    update();
     super.onInit();
+    loadData();
   }
 
-  void loadData() async {
-    change(null, status: RxStatus.loading());
-    update();
-    final allListData = _services.getAllListData();
-    log("allListData ${allListData.first.name}");
+  Future<void> loadData() async {
+    try {
+      change(null, status: RxStatus.loading());
 
-    // selectedCategory.value = categoryMap[selectedCategory.value.name] ??
-    //     categoryMap[allListData.first.name]!;
-    if (allListData.isNotEmpty) {
-      for (Guides guides in allListData) {
-        categoryMap[guides.name] = guides;
+      final QuerySnapshot snapshot = await _firebaseService.getGuidesList();
+
+      if (!snapshot.docs.isEmpty) {
+        guides.value = snapshot.docs.map((doc) {
+          final data = doc.data() as Map<String, dynamic>;
+          final elementsData = data["elements"] as List<dynamic>;
+          final elements = elementsData.map((element) {
+            return GuideStep.fromJson(element as Map<String, dynamic>);
+          }).toList();
+
+          final guide =
+              Guides(id: doc.id, name: data['hazardsName'], elements: elements);
+          return guide;
+        }).toList();
+
+        selectedCategory?.value = guides.first;
+        update();
+        change(guides, status: RxStatus.success());
+      } else {
+        change(null, status: RxStatus.empty());
       }
-      log('one map ${categoryMap[selectedCategory.value.name]}');
-      selectedCategory.value = categoryMap[selectedCategory.value.name]!;
-
-      change(allListData, status: RxStatus.success());
-      log("data loading completed in guides controller");
-      update();
-    } else {
-      change(null, status: RxStatus.empty());
-      update();
+    } catch (e) {
+      change(null, status: RxStatus.error('An error occurred: $e'));
     }
   }
 
-  void changeCategory(String newCategory) {
-    if (categoryMap.containsKey(newCategory)) {
-      selectedCategory.value = categoryMap[newCategory]!;
+  void handleDropdownSelection(String? newValue) {
+    change(null, status: RxStatus.loading());
+    if (newValue != null) {
+      final selectedGuide = guides.firstWhere(
+        (guide) => guide.name == newValue,
+        // orElse: () => null,
+      );
+
+      selectedCategory?.value = selectedGuide;
+      change(guides, status: RxStatus.success());
       update();
     }
   }

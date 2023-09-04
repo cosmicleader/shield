@@ -58,6 +58,7 @@ class SignUpController extends GetxController {
         DocumentReference userDocRef = usersCollection.doc(uid);
 
         batch.set(userDocRef, {
+          'uid': uid,
           'displayName': displayName,
           'phoneNumber': phoneNumber,
           'dateOfBirth': dateOfBirth,

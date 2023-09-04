@@ -10,6 +10,7 @@ import 'package:shield/app/controllers/auth_controller.dart';
 import 'package:shield/app/controllers/map_controller.dart';
 import 'package:shield/app/controllers/profile_controller.dart';
 import 'package:shield/app/views/dialogs/email_update_dialoguebox.dart';
+import 'package:shield/app/views/pages/user_posts.dart';
 import 'package:shield/app/views/themes/colours.dart';
 import 'package:shield/app/views/widgets/custom_button.dart';
 
@@ -53,7 +54,13 @@ class ProfilePage extends GetView<ProfileController> {
                       : _buildAlertMyLocationStartCard(
                           alertController, context);
                 },
-              )
+              ),
+              ElevatedButton(
+                  style: ButtonStyle(
+                      backgroundColor: MaterialStatePropertyAll(kBlack)),
+                  onPressed: () => Get.to(() => const UserPostsPage(),
+                      transition: Transition.downToUp),
+                  child: const Text('My Posts'))
             ],
           ),
         ),
