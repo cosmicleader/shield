@@ -186,7 +186,11 @@ Card buildCustomResourceCard(Resource resource, BuildContext context) {
                     // Handle resource request here
                     showDialog(
                       context: context,
-                      builder: (context) => ResourceRequestDialog(),
+                      builder: (context) => ResourceRequestDialog(
+                        ownerId: resource.ownerId,
+                        resourceID: resource.id,
+                        title: resource.title,
+                      ),
                     );
                   },
                   child: const Text('Request'),
@@ -209,8 +213,18 @@ Card buildCustomResourceCard(Resource resource, BuildContext context) {
 }
 
 class ResourceRequestDialog extends StatelessWidget {
+  final String title;
+  final String resourceID;
+  final String ownerId;
   final TextEditingController _additionalDetailsController =
       TextEditingController();
+
+  ResourceRequestDialog({
+    super.key,
+    required this.title,
+    required this.resourceID,
+    required this.ownerId,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -266,7 +280,11 @@ class ResourceRequestDialog extends StatelessWidget {
             final confirmResourcesController =
                 Get.put(ConfirmResourcesController());
             // Add your logic here
-            confirmResourcesController.sendRequest(additionalDetails);
+            confirmResourcesController.sendRequest(
+                additionalDetails: additionalDetails,
+                ownerId: ownerId,
+                resourceId: resourceID,
+                title: title);
 
             Get.back(); // Close the dialog
           },

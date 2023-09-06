@@ -19,7 +19,8 @@ class RequestController extends GetxController {
         'description': descriptionController.text,
         'postedTime': DateTime.now(),
         'requestType': 'required',
-        'uid': authController.user.value!.uid // Set the request type as needed
+        'ownerId':
+            authController.user.value!.uid // Set the request type as needed
       });
     } catch (e) {
       log('Error uploading data: $e');

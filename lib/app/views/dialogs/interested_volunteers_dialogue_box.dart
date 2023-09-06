@@ -121,5 +121,5 @@ void handleActionButtonClick(VolunteerRequest request) {
   final acceptVolunteerRequestController =
       Get.put(AcceptVolunteerRequestController());
   Get.back(); // Close the dialog.
-  acceptVolunteerRequestController.confirmAction(request.id);
+  acceptVolunteerRequestController.confirmAction(request.id, request.ownerId);
 }

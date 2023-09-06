@@ -16,4 +16,5 @@ abstract class Routes {
   static const guides = '/guides'; // Guides page route
   static const resources = '/resources'; // Resources page route
   static const profile = '/profile'; // Profile page route
+  static const notification = '/notification'; // Request volunteer page route
 }

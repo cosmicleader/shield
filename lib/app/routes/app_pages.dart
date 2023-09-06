@@ -6,11 +6,13 @@ import 'package:shield/app/bindings/volunteers_binding.dart';
 import 'package:shield/app/views/pages/guides_cover_page.dart';
 import 'package:shield/app/views/pages/login_page.dart';
 import 'package:shield/app/views/pages/navigation_bar.dart';
+import 'package:shield/app/views/pages/notification_page.dart';
 import 'package:shield/app/views/pages/signup_page.dart';
 import 'package:shield/app/views/pages/volunteers_page.dart';
 
 import '../bindings/guides_bindings.dart';
 import '../bindings/maps_bindings.dart';
+import '../bindings/notification_bindings.dart';
 import '../bindings/signup_bindigs.dart';
 import '../bindings/splash_bindings.dart';
 import '../views/pages/guides_page.dart';
@@ -76,6 +78,12 @@ class AppPages {
         page: (() => GuidesPage()),
         binding: GuidesBinding(),
         transition: Transition.cupertinoDialog),
+    GetPage(
+      name: Routes.notification,
+      page: (() => NotificationPage()),
+      binding: NotificationBinding(),
+      transition: Transition.cupertinoDialog,
+    )
     // Add more routes with comments and transitions here...
   ];
 }

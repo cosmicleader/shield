@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -54,6 +52,7 @@ class GuidesPage extends GetView<GuidesController> {
                   controller.update();
                 }
               },
+              // ignore: invalid_use_of_protected_member
               items: controller.dropDownOptions.value
                   .map<DropdownMenuItem<String>>((String value) {
                 return DropdownMenuItem<String>(

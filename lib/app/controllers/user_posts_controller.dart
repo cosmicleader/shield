@@ -33,6 +33,7 @@ class UserPostsController extends GetxController {
       final List<String> requests = List<String>.from(data['requests']);
       return Resource(
         id: doc.id,
+        ownerId: data['ownerId'],
         title: data['title'],
         type: data['type'],
         location: data['location'],
@@ -52,6 +53,7 @@ class UserPostsController extends GetxController {
 
       return VolunteerRequest(
         id: doc.id,
+        ownerId: requestData['ownerId'],
         title: requestData['title'] ?? '', // Use the null-aware operator
         description:
             requestData['description'] ?? '', // Use the null-aware operator

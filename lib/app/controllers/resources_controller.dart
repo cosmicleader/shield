@@ -20,6 +20,7 @@ class ResourcesController extends GetxController {
         final List<String> requests = List<String>.from(data['requests']);
         return Resource(
           id: doc.id,
+          ownerId: data['ownerId'],
           title: data['title'],
           type: data['type'],
           location: data['location'],

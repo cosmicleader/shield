@@ -28,6 +28,7 @@ class _CreateResourceBottomSheetState extends State<CreateResourceBottomSheet> {
 
       if (authController.user.value != null) {
         final resource = Resource(
+          ownerId: authController.getUID,
           id: '', // Firestore will auto-generate an ID
           title: titleController.text,
           type: typeController.text,

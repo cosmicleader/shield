@@ -98,9 +98,15 @@ class AppBarSection extends StatelessWidget {
               color: const Color(0xff1b1b1b),
               borderRadius: BorderRadius.circular(100),
             ),
-            child: const Icon(
-              Icons.notifications,
-              color: Colors.white,
+            child: InkWell(
+              onTap: () {
+                // Get.to(() => NotificationPage());
+                Get.toNamed('/notification');
+              },
+              child: const Icon(
+                Icons.notifications,
+                color: Colors.white,
+              ),
             ),
           )
         ],

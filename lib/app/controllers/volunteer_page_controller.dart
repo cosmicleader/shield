@@ -26,6 +26,7 @@ class VolunteersController extends GetxController
 
         return VolunteerRequest(
           id: doc.id,
+          ownerId: requestData['ownerId'] ?? '',
           title: requestData['title'] ?? '', // Use the null-aware operator
           description:
               requestData['description'] ?? '', // Use the null-aware operator
